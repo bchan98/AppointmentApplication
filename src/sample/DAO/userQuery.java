@@ -14,7 +14,7 @@ public class userQuery {
         while(rs.next() && flag == false) {
             String usernameAuth = rs.getString("User_Name");
             String passwordAuth = rs.getString("Password");
-            if(usernameAuth == username && passwordAuth == password){
+            if(usernameAuth.equals(username) && passwordAuth.equals(password)){
                 flag = true;
             }
         }

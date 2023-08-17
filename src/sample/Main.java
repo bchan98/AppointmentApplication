@@ -18,19 +18,6 @@ public class Main extends Application {
         primaryStage.setTitle("Appointment Generator");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-
-        JDBC.openConnection();
-
-        boolean success = userQuery.verifyCredentials("test", "test");
-        if(success = true) {
-            System.out.println("Success!");
-        }
-        else
-        {
-            System.out.println("Failure..");
-        }
-
-        JDBC.closeConnection();
     }
 
     public static void main(String[] args) {
