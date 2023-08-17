@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
+import sample.DAO.userQuery;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -15,10 +18,20 @@ public class Main extends Application {
         primaryStage.setTitle("Appointment Generator");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-            JDBC.openConnection();
-            JDBC.closeConnection();
-    }
 
+        JDBC.openConnection();
+
+        boolean success = userQuery.verifyCredentials("test", "test");
+        if(success = true) {
+            System.out.println("Success!");
+        }
+        else
+        {
+            System.out.println("Failure..");
+        }
+
+        JDBC.closeConnection();
+    }
 
     public static void main(String[] args) {
         launch(args);
