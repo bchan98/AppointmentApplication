@@ -14,11 +14,12 @@ public class appointment {
     private Timestamp appointmentCreationDate;
     private String appointmentCreationUser;
     private Timestamp appointmentLastUpdate;
+    private String appointmentLastUpdatedBy;
     private int customerID;
     private int userID;
     private int contactID;
 
-    public appointment(int appointmentID, String title, String description, String location, String appointmentType, Timestamp appointmentStart, Timestamp appointmentEnd, Timestamp appointmentCreationDate, String appointmentCreationUser, Timestamp appointmentLastUpdate, int customerID, int userID, int contactID) {
+    public appointment(int appointmentID, String title, String description, String location, String appointmentType, Timestamp appointmentStart, Timestamp appointmentEnd, Timestamp appointmentCreationDate, String appointmentCreationUser, Timestamp appointmentLastUpdate, String appointmentLastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -29,6 +30,7 @@ public class appointment {
         this.appointmentCreationDate = appointmentCreationDate;
         this.appointmentCreationUser = appointmentCreationUser;
         this.appointmentLastUpdate = appointmentLastUpdate;
+        this.appointmentLastUpdatedBy = appointmentLastUpdatedBy;
         this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
@@ -73,8 +75,6 @@ public class appointment {
     public void setAppointmentType(String appointmentType) {
         this.appointmentType = appointmentType;
     }
-
-
 
     public int getCustomerID() {
         return customerID;
@@ -138,5 +138,13 @@ public class appointment {
 
     public void setAppointmentLastUpdate(Timestamp appointmentLastUpdate) {
         this.appointmentLastUpdate = appointmentLastUpdate;
+    }
+
+    public String getAppointmentLastUpdatedBy() {
+        return appointmentLastUpdatedBy;
+    }
+
+    public void setAppointmentLastUpdatedBy(String appointmentLastUpdatedBy) {
+        this.appointmentLastUpdatedBy = appointmentLastUpdatedBy;
     }
 }
