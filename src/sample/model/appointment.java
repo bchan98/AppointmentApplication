@@ -1,6 +1,7 @@
 package sample.model;
 
-import java.time.ZonedDateTime;
+
+import java.sql.Timestamp;
 
 public class appointment {
     private int appointmentID;
@@ -8,16 +9,16 @@ public class appointment {
     private String description;
     private String location;
     private String appointmentType;
-    private ZonedDateTime appointmentStart;
-    private ZonedDateTime appointmentEnd;
-    private ZonedDateTime appointmentCreationDate;
+    private Timestamp appointmentStart;
+    private Timestamp appointmentEnd;
+    private Timestamp appointmentCreationDate;
     private String appointmentCreationUser;
-    private ZonedDateTime appointmentLastUpdate;
+    private Timestamp appointmentLastUpdate;
     private int customerID;
     private int userID;
     private int contactID;
 
-    public appointment(int appointmentID, String title, String description, String location, String appointmentType, ZonedDateTime appointmentStart, ZonedDateTime appointmentEnd, ZonedDateTime appointmentCreationDate, String appointmentCreationUser, ZonedDateTime appointmentLastUpdate, int customerID, int userID, int contactID) {
+    public appointment(int appointmentID, String title, String description, String location, String appointmentType, Timestamp appointmentStart, Timestamp appointmentEnd, Timestamp appointmentCreationDate, String appointmentCreationUser, Timestamp appointmentLastUpdate, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -99,27 +100,27 @@ public class appointment {
         this.contactID = contactID;
     }
 
-    public ZonedDateTime getAppointmentStart() {
+    public Timestamp getAppointmentStart() {
         return appointmentStart;
     }
 
-    public void setAppointmentStart(ZonedDateTime appointmentStart) {
+    public void setAppointmentStart(Timestamp appointmentStart) {
         this.appointmentStart = appointmentStart;
     }
 
-    public ZonedDateTime getAppointmentEnd() {
+    public Timestamp getAppointmentEnd() {
         return appointmentEnd;
     }
 
-    public void setAppointmentEnd(ZonedDateTime appointmentEnd) {
+    public void setAppointmentEnd(Timestamp appointmentEnd) {
         this.appointmentEnd = appointmentEnd;
     }
 
-    public ZonedDateTime getAppointmentCreationDate() {
+    public Timestamp getAppointmentCreationDate() {
         return appointmentCreationDate;
     }
 
-    public void setAppointmentCreationDate(ZonedDateTime appointmentCreationDate) {
+    public void setAppointmentCreationDate(Timestamp appointmentCreationDate) {
         this.appointmentCreationDate = appointmentCreationDate;
     }
 
@@ -131,11 +132,11 @@ public class appointment {
         this.appointmentCreationUser = appointmentCreationUser;
     }
 
-    public ZonedDateTime getAppointmentLastUpdate() {
+    public Timestamp getAppointmentLastUpdate() {
         return appointmentLastUpdate;
     }
 
-    public void setAppointmentLastUpdate(ZonedDateTime appointmentLastUpdate) {
+    public void setAppointmentLastUpdate(Timestamp appointmentLastUpdate) {
         this.appointmentLastUpdate = appointmentLastUpdate;
     }
 }
