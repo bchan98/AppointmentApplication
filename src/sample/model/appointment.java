@@ -1,6 +1,6 @@
 package sample.model;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class appointment {
     private int appointmentID;
@@ -8,16 +8,16 @@ public class appointment {
     private String description;
     private String location;
     private String appointmentType;
-    private LocalDateTime appointmentStart;
-    private LocalDateTime appointmentEnd;
-    private LocalDateTime appointmentCreationDate;
+    private ZonedDateTime appointmentStart;
+    private ZonedDateTime appointmentEnd;
+    private ZonedDateTime appointmentCreationDate;
     private String appointmentCreationUser;
-    private LocalDateTime appointmentLastUpdate;
+    private ZonedDateTime appointmentLastUpdate;
     private int customerID;
     private int userID;
     private int contactID;
 
-    public appointment(int appointmentID, String title, String description, String location, String appointmentType, LocalDateTime appointmentStart, LocalDateTime appointmentEnd, LocalDateTime appointmentCreationDate, String appointmentCreationUser, LocalDateTime appointmentLastUpdate, int customerID, int userID, int contactID) {
+    public appointment(int appointmentID, String title, String description, String location, String appointmentType, ZonedDateTime appointmentStart, ZonedDateTime appointmentEnd, ZonedDateTime appointmentCreationDate, String appointmentCreationUser, ZonedDateTime appointmentLastUpdate, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -73,45 +73,7 @@ public class appointment {
         this.appointmentType = appointmentType;
     }
 
-    public LocalDateTime getAppointmentStart() {
-        return appointmentStart;
-    }
 
-    public void setAppointmentStart(LocalDateTime appointmentStart) {
-        this.appointmentStart = appointmentStart;
-    }
-
-    public LocalDateTime getAppointmentEnd() {
-        return appointmentEnd;
-    }
-
-    public void setAppointmentEnd(LocalDateTime appointmentEnd) {
-        this.appointmentEnd = appointmentEnd;
-    }
-
-    public LocalDateTime getAppointmentCreationDate() {
-        return appointmentCreationDate;
-    }
-
-    public void setAppointmentCreationDate(LocalDateTime appointmentCreationDate) {
-        this.appointmentCreationDate = appointmentCreationDate;
-    }
-
-    public String getAppointmentCreationUser() {
-        return appointmentCreationUser;
-    }
-
-    public void setAppointmentCreationUser(String appointmentCreationUser) {
-        this.appointmentCreationUser = appointmentCreationUser;
-    }
-
-    public LocalDateTime getAppointmentLastUpdate() {
-        return appointmentLastUpdate;
-    }
-
-    public void setAppointmentLastUpdate(LocalDateTime appointmentLastUpdate) {
-        this.appointmentLastUpdate = appointmentLastUpdate;
-    }
 
     public int getCustomerID() {
         return customerID;
@@ -135,5 +97,45 @@ public class appointment {
 
     public void setContactID(int contactID) {
         this.contactID = contactID;
+    }
+
+    public ZonedDateTime getAppointmentStart() {
+        return appointmentStart;
+    }
+
+    public void setAppointmentStart(ZonedDateTime appointmentStart) {
+        this.appointmentStart = appointmentStart;
+    }
+
+    public ZonedDateTime getAppointmentEnd() {
+        return appointmentEnd;
+    }
+
+    public void setAppointmentEnd(ZonedDateTime appointmentEnd) {
+        this.appointmentEnd = appointmentEnd;
+    }
+
+    public ZonedDateTime getAppointmentCreationDate() {
+        return appointmentCreationDate;
+    }
+
+    public void setAppointmentCreationDate(ZonedDateTime appointmentCreationDate) {
+        this.appointmentCreationDate = appointmentCreationDate;
+    }
+
+    public String getAppointmentCreationUser() {
+        return appointmentCreationUser;
+    }
+
+    public void setAppointmentCreationUser(String appointmentCreationUser) {
+        this.appointmentCreationUser = appointmentCreationUser;
+    }
+
+    public ZonedDateTime getAppointmentLastUpdate() {
+        return appointmentLastUpdate;
+    }
+
+    public void setAppointmentLastUpdate(ZonedDateTime appointmentLastUpdate) {
+        this.appointmentLastUpdate = appointmentLastUpdate;
     }
 }
