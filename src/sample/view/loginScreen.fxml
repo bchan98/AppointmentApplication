@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.PasswordField?>
 
 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.loginController">
    <children>
@@ -23,8 +24,8 @@
           <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="128.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="passField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <TextField fx:id="userField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <PasswordField fx:id="passField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#checkPass" text="Login" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Label fx:id="authError" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Label fx:id="timeZoneDisplay" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
