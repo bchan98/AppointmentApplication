@@ -20,8 +20,11 @@
          <children>
             <TableView fx:id="appointmentDisplay" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="appTitleCol" prefWidth="75.0" text="Title" />
+                <TableColumn fx:id="appLocCol" prefWidth="75.0" text="Location" />
+                <TableColumn fx:id="appStartCol" prefWidth="75.0" text="Start" />
+                <TableColumn fx:id="appEndCol" prefWidth="75.0" text="End" />
+                <TableColumn fx:id="appCIDCol" prefWidth="75.0" text="Customer ID" />
               </columns>
             </TableView>
          </children>
