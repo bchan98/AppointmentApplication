@@ -31,7 +31,7 @@ public class loginController{
             System.out.println("Success!");
             Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
             Stage stage = new Stage();
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 1000, 400);
             stage.setTitle ("Appointments");
             stage.setScene(scene);
             stage.show();

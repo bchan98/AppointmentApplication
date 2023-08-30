@@ -7,24 +7,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.appointmentController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.appointmentController">
    <children>
       <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="362.0" minHeight="10.0" prefHeight="343.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TableView fx:id="appointmentDisplay" prefHeight="200.0" prefWidth="200.0">
               <columns>
+                <TableColumn fx:id="appAIDCol" prefWidth="75.0" text="Appointment ID" />
                 <TableColumn fx:id="appTitleCol" prefWidth="75.0" text="Title" />
+                <TableColumn fx:id="appDesCol" prefWidth="125.0" text="Description" />
                 <TableColumn fx:id="appLocCol" prefWidth="75.0" text="Location" />
-                <TableColumn fx:id="appStartCol" prefWidth="75.0" text="Start" />
-                <TableColumn fx:id="appEndCol" prefWidth="75.0" text="End" />
+                <TableColumn fx:id="appContCol" prefWidth="75.0" text="Contact ID" />
+                <TableColumn fx:id="appTypeCol" prefWidth="125.0" text="Type" />
+                <TableColumn fx:id="appStartCol" prefWidth="125.0" text="Start" />
+                <TableColumn fx:id="appEndCol" prefWidth="125.0" text="End" />
                 <TableColumn fx:id="appCIDCol" prefWidth="75.0" text="Customer ID" />
+                <TableColumn fx:id="appUIDCol" prefWidth="75.0" text="User ID" />
               </columns>
             </TableView>
          </children>

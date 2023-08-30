@@ -21,6 +21,11 @@ public class appointmentController implements Initializable {
     public TableColumn appStartCol;
     public TableColumn appEndCol;
     public TableColumn appCIDCol;
+    public TableColumn appAIDCol;
+    public TableColumn appDesCol;
+    public TableColumn appContCol;
+    public TableColumn appTypeCol;
+    public TableColumn appUIDCol;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,5 +44,10 @@ public class appointmentController implements Initializable {
         appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
         appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
         appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 }
