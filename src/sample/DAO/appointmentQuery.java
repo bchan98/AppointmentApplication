@@ -19,7 +19,7 @@ public class appointmentQuery {
         ResultSet rs = ps.executeQuery();
         allAppointments.clear();
 
-        while(rs.next()) {
+        while (rs.next()) {
             int nuAppointmentID = rs.getInt("Appointment_ID");
             String nuTitle = rs.getString("Title");
             String nuDescription = rs.getString("Description");
@@ -38,7 +38,46 @@ public class appointmentQuery {
             appointment nuAppointment = new appointment(nuAppointmentID, nuTitle, nuDescription, nuLocation, nuType, nuStart, nuEnd, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdatedBy, nuCustomerID, nuUserID, nuContactID);
             allAppointments.add(nuAppointment);
         }
-
         return allAppointments;
     }
+
+    public static int create(appointment nuAppointment) throws SQLException {
+
+        int nuAppointmentID = nuAppointment.getAppointmentID();
+        String nuTitle = nuAppointment.getTitle();
+        String nuDescription = nuAppointment.getDescription();
+        String nuLocation = nuAppointment.getLocation();
+        String nuType = nuAppointment.getAppointmentType();
+        Timestamp nuStart = nuAppointment.getAppointmentStart();
+        Timestamp nuEnd = nuAppointment.getAppointmentEnd();
+        Timestamp nuCreateDate = nuAppointment.getAppointmentCreationDate();
+        String nuCreateBy = nuAppointment.getAppointmentCreationUser();
+        Timestamp nuLastUpdate = nuAppointment.getAppointmentLastUpdate();
+        String nuLastUpdatedBy = nuAppointment.getAppointmentLastUpdatedBy();
+        int nuCustomerID = nuAppointment.getCustomerID();
+        int nuUserID = nuAppointment.getUserID();
+        int nuContactID = nuAppointment.getContactID();
+
+
+        String sql = "INSERT INTO APPOINTMENTS (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, nuAppointmentID);
+        ps.setString(2, nuTitle);
+        ps.setString(3, nuDescription);
+        ps.setString(4, nuLocation);
+        ps.setString(5, nuType);
+        ps.setTimestamp(6, nuStart);
+        ps.setTimestamp(7, nuEnd);
+        ps.setTimestamp(8, nuCreateDate);
+        ps.setString(9, nuCreateBy);
+        ps.setTimestamp(10, nuLastUpdate);
+        ps.setString(11, nuLastUpdatedBy);
+        ps.setInt(12, nuCustomerID);
+        ps.setInt(13, nuUserID);
+        ps.setInt(14, nuContactID);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
 }
+

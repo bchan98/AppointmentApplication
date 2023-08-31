@@ -19,6 +19,7 @@ public class loginController{
     public TextField userField;
     public PasswordField passField;
     public Label authError;
+    public static String loggedUser;
 
     public void checkPass(ActionEvent actionEvent) throws SQLException, IOException {
         String usr = userField.getText();
@@ -28,11 +29,13 @@ public class loginController{
         boolean success = userQuery.verifyCredentials(usr, pass);
         if(success == true)
         {
+            loggedUser = usr;
+
             System.out.println("Success!");
-            Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
             Stage stage = new Stage();
-            Scene scene = new Scene(root, 1000, 400);
-            stage.setTitle ("Appointments");
+            Scene scene = new Scene(root, 400, 400);
+            stage.setTitle ("Main Menu");
             stage.setScene(scene);
             stage.show();
         }
