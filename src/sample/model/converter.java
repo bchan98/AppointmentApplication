@@ -5,6 +5,10 @@ import sample.DAO.JDBC;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class converter {
     public static int toUserID(String userName) throws SQLException {
@@ -98,6 +102,54 @@ public class converter {
             int checkID = rs.getInt("Contact_ID");
             if(checkID == contactID) {
                 subName = rs.getString("Contact_Name");
+            }
+        }
+
+        return subName;
+    }
+
+    public static ZonedDateTime toUserTime(Timestamp time) {
+        LocalDateTime conOne = time.toLocalDateTime();
+        ZonedDateTime sysTime = conOne.atZone(ZoneId.systemDefault());
+        return sysTime;
+    }
+
+    public static ZonedDateTime toCompanyTime(Timestamp time) {
+        LocalDateTime conOne = time.toLocalDateTime();
+        ZonedDateTime companyTime = conOne.atZone(ZoneId.systemDefault());
+        return companyTime;
+    }
+
+    public static Timestamp toUniversalTime(LocalDateTime time) {
+        Timestamp universalTime = Timestamp.valueOf(time);
+        return universalTime;
+    }
+
+    public static int toCountryID(String countryName) throws SQLException {
+        String sql = "SELECT * FROM Countries";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        int subID = 0;
+
+        while(rs.next()) {
+            String checkName = rs.getString("Country");
+            if(checkName == countryName) {
+                subID = rs.getInt("Country_ID");
+            }
+        }
+        return subID;
+    }
+
+    public static String toCountryName(int contactID) throws SQLException {
+        String sql = "SELECT * FROM COUNTRIES";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        String subName = null;
+
+        while(rs.next()) {
+            int checkID = rs.getInt("Country_ID");
+            if(checkID == contactID) {
+                subName = rs.getString("Country");
             }
         }
 
