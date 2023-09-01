@@ -79,5 +79,11 @@ public class appointmentQuery {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
+
+    /**
+    public static int remove(appointment nuAppointment) throws SQLException {
+
+    }
+    **/
 }
 
