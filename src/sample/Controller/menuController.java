@@ -18,6 +18,12 @@ public class menuController {
         stage.show();
     }
 
-    public void sendToCustomers(ActionEvent actionEvent) {
+    public void sendToCustomers(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/customerScreen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root, 1000, 400);
+        stage.setTitle ("Customers");
+        stage.setScene(scene);
+        stage.show();
     }
 }
