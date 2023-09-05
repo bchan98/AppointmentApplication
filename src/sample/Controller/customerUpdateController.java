@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import sample.DAO.JDBC;
 import sample.DAO.customerQuery;
 import sample.model.converter;
@@ -26,6 +28,8 @@ public class customerUpdateController implements Initializable {
     public ComboBox countryMenu;
     public ComboBox provinceMenu;
     public TextField IDField;
+    public Button saveButton;
+    public Button closeButton;
 
     private int countryIDFlag = 0;
 
@@ -83,8 +87,18 @@ public class customerUpdateController implements Initializable {
         String nuLastUpdateBy = loginController.loggedUser;
 
         customer nuCustomer = new customer(nuID, nuName, nuAddress, nuPC, nuPhone, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdateBy, nuDiv);
+        /**
+        JDBC.openConnection();
+        customerQuery.create(nuCustomer);
+        JDBC.closeConnection();
+         **/
+
+        Stage stage = (Stage) saveButton.getScene().getWindow();
+        stage.close();
     }
 
     public void closeWindow(ActionEvent actionEvent) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 }

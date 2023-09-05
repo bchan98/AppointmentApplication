@@ -38,6 +38,9 @@ public class loginController{
             stage.setTitle ("Main Menu");
             stage.setScene(scene);
             stage.show();
+
+            Stage prevStage = (Stage) userField.getScene().getWindow();
+            prevStage.close();
         }
         else {
             authError.setText("Either the username or password are incorrect. Please try again!");

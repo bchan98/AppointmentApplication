@@ -60,8 +60,8 @@
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#saveChanges" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-            <Button mnemonicParsing="false" onAction="#closeWindow" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <Button mnemonicParsing="false" fx:id="saveButton" onAction="#saveChanges" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <Button mnemonicParsing="false" fx:id="closeButton" onAction="#closeWindow" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
