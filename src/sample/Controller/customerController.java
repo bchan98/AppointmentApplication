@@ -2,6 +2,7 @@ package sample.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,5 +43,14 @@ public class customerController implements Initializable {
         cusPC.setCellValueFactory(new PropertyValueFactory<>("postCode"));
         cusPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         cusDivID.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
+    }
+
+    public void addCustomer(ActionEvent actionEvent) {
+    }
+
+    public void modCustomer(ActionEvent actionEvent) {
+    }
+
+    public void delCustomer(ActionEvent actionEvent) {
     }
 }
