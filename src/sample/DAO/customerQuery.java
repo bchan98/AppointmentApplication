@@ -71,4 +71,33 @@ public class customerQuery {
 
         return allDivisions;
     }
+
+    public static int create(customer nuCustomer) throws SQLException {
+        int nuID = nuCustomer.getCustomerID();
+        String nuName = nuCustomer.getCustomerName();
+        String nuAddress = nuCustomer.getAddress();
+        String nuPC = nuCustomer.getPostCode();
+        String nuPhone = nuCustomer.getPhone();
+        Timestamp nuCreateDate = nuCustomer.getCreateDate();
+        String nuCreateBy = nuCustomer.getCreateBy();
+        Timestamp nuLastUpdate = nuCustomer.getLastUpdate();
+        String nuLastUpdateBy = nuCustomer.getLastUpdateBy();
+        int nuDiv = nuCustomer.getDivisionID();
+
+        String sql = "INSERT INTO CUSTOMERS (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1,nuID);
+        ps.setString(2, nuName);
+        ps.setString(3, nuAddress);
+        ps.setString(4, nuPC);
+        ps.setString(5, nuPhone);
+        ps.setTimestamp(6, nuCreateDate);
+        ps.setString(7, nuCreateBy);
+        ps.setTimestamp(8, nuLastUpdate);
+        ps.setString(9, nuLastUpdateBy);
+        ps.setInt(10, nuDiv);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
 }
