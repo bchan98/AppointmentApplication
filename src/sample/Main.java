@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
 import sample.DAO.userQuery;
+import sample.model.converter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -20,7 +22,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         launch(args);
     }
 }

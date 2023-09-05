@@ -1,5 +1,6 @@
 package sample.model;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import sample.DAO.JDBC;
 
 import java.sql.PreparedStatement;
@@ -126,14 +127,14 @@ public class converter {
     }
 
     public static int toCountryID(String countryName) throws SQLException {
-        String sql = "SELECT * FROM Countries";
+        String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         int subID = 0;
 
         while(rs.next()) {
             String checkName = rs.getString("Country");
-            if(checkName == countryName) {
+            if(checkName.equals(countryName)) {
                 subID = rs.getInt("Country_ID");
             }
         }
@@ -154,5 +155,20 @@ public class converter {
         }
 
         return subName;
+    }
+
+    public static int toDivisionID(String divisionName) throws SQLException {
+        String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        int subID = 0;
+
+        while(rs.next()) {
+            String checkName = rs.getString("Division");
+            if(divisionName.equals(checkName)) {
+                subID = rs.getInt("Division_ID");
+            }
+        }
+        return subID;
     }
 }

@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 
 public class customerQuery {
     private static ObservableList<customer> allCustomers = FXCollections.observableArrayList();
+    private static ObservableList<String> allCountries = FXCollections.observableArrayList();
+    private static ObservableList<String> allDivisions = FXCollections.observableArrayList();
 
     public static ObservableList<customer> getAllCustomers() throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS";
@@ -36,5 +38,37 @@ public class customerQuery {
         }
 
         return allCustomers;
+    }
+
+    public static ObservableList<String> getCountries() throws SQLException {
+        allCountries.clear();
+
+        String sql = "SELECT * FROM COUNTRIES";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            String nuCountry = rs.getString("Country");
+            allCountries.add(nuCountry);
+        }
+        return allCountries;
+    }
+
+    public static ObservableList<String> getDivisions(int countID) throws SQLException {
+        allDivisions.clear();
+
+        String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            int cIDCheck = rs.getInt("Country_ID");
+            if (cIDCheck == countID) {
+                String nuDivision = rs.getString("Division");
+                allDivisions.add(nuDivision);
+            }
+        }
+
+        return allDivisions;
     }
 }
