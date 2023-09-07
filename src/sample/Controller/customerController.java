@@ -62,6 +62,9 @@ public class customerController implements Initializable {
         stage.setTitle ("Add Customer");
         stage.setScene(scene);
         stage.show();
+
+        Stage cuStage = (Stage) customerDisplay.getScene().getWindow();
+        cuStage.close();
     }
 
     public void modCustomer(ActionEvent actionEvent) throws IOException {
@@ -73,6 +76,9 @@ public class customerController implements Initializable {
         stage.setTitle ("Modify Customer");
         stage.setScene(scene);
         stage.show();
+
+        Stage cuStage = (Stage) customerDisplay.getScene().getWindow();
+        cuStage.close();
     }
 
     public void delCustomer(ActionEvent actionEvent) {
