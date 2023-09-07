@@ -42,11 +42,9 @@ public class customerQuery {
 
     public static ObservableList<String> getCountries() throws SQLException {
         allCountries.clear();
-
         String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-
         while(rs.next()){
             String nuCountry = rs.getString("Country");
             allCountries.add(nuCountry);
@@ -105,6 +103,33 @@ public class customerQuery {
         String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, cID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static int update(customer nuCustomer) throws SQLException {
+        int nuID = nuCustomer.getCustomerID();
+        String nuName = nuCustomer.getCustomerName();
+        String nuAddress = nuCustomer.getAddress();
+        String nuPC = nuCustomer.getPostCode();
+        String nuPhone = nuCustomer.getPhone();
+        Timestamp nuLastUpdate = nuCustomer.getLastUpdate();
+        String nuLastUpdateBy = nuCustomer.getLastUpdateBy();
+        int nuDiv = nuCustomer.getDivisionID();
+
+        System.out.println(nuID);
+
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, nuName);
+        ps.setString(2, nuAddress);
+        ps.setString(3, nuPC);
+        ps.setString(4, nuPhone);
+        ps.setTimestamp(5, nuLastUpdate);
+        ps.setString(6, nuLastUpdateBy);
+        ps.setInt(7, nuDiv);
+        ps.setInt(8, nuID);
+
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }

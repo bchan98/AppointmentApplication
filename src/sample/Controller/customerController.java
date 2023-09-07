@@ -39,15 +39,13 @@ public class customerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<customer> showCustomers = FXCollections.observableArrayList();
 
-        JDBC.openConnection();
-
         try {
+            JDBC.openConnection();
             showCustomers = customerQuery.getAllCustomers();
+            JDBC.closeConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        JDBC.closeConnection();
 
         customerDisplay.setItems(showCustomers);
         cusID.setCellValueFactory(new PropertyValueFactory<>("customerID"));

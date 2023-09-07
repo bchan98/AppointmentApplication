@@ -40,6 +40,7 @@ public class customerUpdateController implements Initializable {
     private static String findCreateBy;
 
     private int countryIDFlag = 0;
+    private static ObservableList<String> allCountries = FXCollections.observableArrayList("U.S", "UK","Canada");
 
     public void countrySel(ActionEvent actionEvent) throws SQLException {
         String selected = (String) countryMenu.getValue();
@@ -52,20 +53,21 @@ public class customerUpdateController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        // load countries into combobox
-        JDBC.openConnection();
-        // check if add or modifying a customer
 
+        // check if add or modifying a customer
         if(customerController.isAdd) {
             try {
+                JDBC.openConnection();
                 IDField.setText(String.valueOf(getLastCID() + 1));
                 countryMenu.setItems(customerQuery.getCountries());
+                JDBC.closeConnection();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
         else {
              try {
+                JDBC.openConnection();
                 IDField.setText(String.valueOf(customerController.sendCustomer.getCustomerID()));
                 nameField.setText(customerController.sendCustomer.getCustomerName());
                 addressField.setText(customerController.sendCustomer.getAddress());
@@ -77,18 +79,18 @@ public class customerUpdateController implements Initializable {
                 String conName = converter.toCountryName(thisCon);
                 String divName = converter.toDivisionName(thisDiv);
 
-                countryMenu.setItems(customerQuery.getCountries());
-                countryMenu.getSelectionModel().select(conName);
+                countryMenu.setItems(allCountries);
+                countryMenu.setValue(conName);
                 provinceMenu.setItems(customerQuery.getDivisions(thisCon));
-                provinceMenu.getSelectionModel().select(divName);
+                provinceMenu.setValue(divName);
 
                 findCreate = customerController.sendCustomer.getCreateDate();
                 findCreateBy = customerController.sendCustomer.getCreateBy();
+                JDBC.closeConnection();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
-        JDBC.closeConnection();
     }
 
     public int getLastCID() throws SQLException {
@@ -133,7 +135,12 @@ public class customerUpdateController implements Initializable {
         }
         else {
             JDBC.openConnection();
-            nuID = 1 + getLastCID();
+            if(customerController.isAdd) {
+                nuID = 1 + getLastCID();
+            }
+            else {
+                nuID = Integer.parseInt(IDField.getText());
+            }
             nuDiv = converter.toDivisionID((String) provinceMenu.getValue());
             JDBC.closeConnection();
         }
@@ -141,9 +148,20 @@ public class customerUpdateController implements Initializable {
         customer nuCustomer = new customer(nuID, nuName, nuAddress, nuPC, nuPhone, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdateBy, nuDiv);
 
         if(checkFlag) {
-            JDBC.openConnection();
-            customerQuery.create(nuCustomer);
-            JDBC.closeConnection();
+            if(customerController.isAdd) {
+                JDBC.openConnection();
+                customerQuery.create(nuCustomer);
+                JDBC.closeConnection();
+                System.out.println("This is a creation!");
+
+            }
+            else {
+                JDBC.openConnection();;
+                int affected = customerQuery.update(nuCustomer);
+                JDBC.closeConnection();
+                System.out.println("This is a modification!");
+                System.out.println(affected);
+            }
 
             System.out.println("Success!");
 
