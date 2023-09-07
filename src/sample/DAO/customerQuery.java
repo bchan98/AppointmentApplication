@@ -100,4 +100,30 @@ public class customerQuery {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
+
+    public static int delete(int cID) throws SQLException {
+        String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, cID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static customer findCustomer(int cID) throws SQLException {
+        ObservableList<customer> findCus = getAllCustomers();
+        boolean checkFlag = true;
+        int i = 0;
+        customer specCus = new customer(0, null, null, null, null, null, null, null, null, 0);
+
+        while(checkFlag) {
+            specCus = findCus.get(i);
+            if(specCus.getCustomerID() != cID) {
+                i++;
+            }
+            else {
+                checkFlag = false;
+            }
+        }
+        return specCus;
+    }
 }

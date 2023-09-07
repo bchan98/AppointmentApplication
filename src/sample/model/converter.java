@@ -1,7 +1,9 @@
 package sample.model;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import javafx.collections.ObservableList;
 import sample.DAO.JDBC;
+import sample.DAO.customerQuery;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -141,7 +143,7 @@ public class converter {
         return subID;
     }
 
-    public static String toCountryName(int contactID) throws SQLException {
+    public static String toCountryName(int countryID) throws SQLException {
         String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -149,7 +151,7 @@ public class converter {
 
         while(rs.next()) {
             int checkID = rs.getInt("Country_ID");
-            if(checkID == contactID) {
+            if(checkID == countryID) {
                 subName = rs.getString("Country");
             }
         }
@@ -171,4 +173,37 @@ public class converter {
         }
         return subID;
     }
+
+    public static String toDivisionName(int divisionID) throws SQLException {
+        String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        String subName = null;
+
+        while(rs.next()) {
+            int checkID = rs.getInt("Division_ID");
+            if(checkID == divisionID) {
+                subName = rs.getString("Division");
+            }
+        }
+
+        return subName;
+    }
+
+    public static int getCountryID(int divisionID) throws SQLException {
+        String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        int subID = 0;
+
+        while(rs.next()) {
+            int checkID = rs.getInt("Division_ID");
+            if(checkID == divisionID) {
+                subID = rs.getInt("Country_ID");
+            }
+        }
+        return subID;
+    }
+
+
 }

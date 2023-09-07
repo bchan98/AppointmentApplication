@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,6 +20,7 @@ import sample.model.customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class customerController implements Initializable {
@@ -30,11 +33,12 @@ public class customerController implements Initializable {
     public TableColumn cusDivID;
 
     public static boolean isAdd = false;
-    public static int sendID = 0;
+    public static customer sendCustomer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<customer> showCustomers = FXCollections.observableArrayList();
+
         JDBC.openConnection();
 
         try {
@@ -42,6 +46,7 @@ public class customerController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         JDBC.closeConnection();
 
         customerDisplay.setItems(showCustomers);
@@ -68,19 +73,60 @@ public class customerController implements Initializable {
     }
 
     public void modCustomer(ActionEvent actionEvent) throws IOException {
-        isAdd = false;
 
-        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/customerModScreen.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root, 600, 600);
-        stage.setTitle ("Modify Customer");
-        stage.setScene(scene);
-        stage.show();
+        if(customerDisplay.getSelectionModel().getSelectedItem() == null) {
+            Alert errorM = new Alert(Alert.AlertType.ERROR);
+            errorM.setTitle("No items selected");
+            errorM.setHeaderText("Missing items required to modify.");
+            errorM.setContentText("Please ensure that you have selected a customer to be modified.");
+            errorM.show();
+        }
+        else {
+            isAdd = false;
+            customer selCustomer = (customer) customerDisplay.getSelectionModel().getSelectedItem();
+            sendCustomer = selCustomer;
 
-        Stage cuStage = (Stage) customerDisplay.getScene().getWindow();
-        cuStage.close();
+            Parent root = FXMLLoader.load(getClass().getResource("/sample/view/customerModScreen.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root, 600, 600);
+            stage.setTitle ("Modify Customer");
+            stage.setScene(scene);
+            stage.show();
+
+            Stage cuStage = (Stage) customerDisplay.getScene().getWindow();
+            cuStage.close();
+        }
     }
 
-    public void delCustomer(ActionEvent actionEvent) {
+    public void delCustomer(ActionEvent actionEvent) throws SQLException {
+        int toDelete = 0;
+        if(customerDisplay.getSelectionModel().getSelectedItem() == null) {
+            Alert errorM = new Alert(Alert.AlertType.ERROR);
+            errorM.setTitle("No items selected");
+            errorM.setHeaderText("Missing items required to delete.");
+            errorM.setContentText("Please ensure that you have selected a customer to be deleted.");
+            errorM.show();
+        }
+        else {
+            customer delCustomer = (customer) customerDisplay.getSelectionModel().getSelectedItem();
+            toDelete = delCustomer.getCustomerID();
+
+            Alert confDel = new Alert(Alert.AlertType.CONFIRMATION);
+            confDel.setTitle("Confirm deletion");
+            confDel.setHeaderText("Deletion Warning");
+            confDel.setContentText("Are you sure you want to delete this customer?");
+
+            Optional<ButtonType> result = confDel.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                JDBC.openConnection();
+
+                customerQuery.delete(toDelete);
+                ObservableList<customer> showCustomers = FXCollections.observableArrayList();
+                showCustomers = customerQuery.getAllCustomers();
+                customerDisplay.setItems(showCustomers);
+
+                JDBC.closeConnection();
+            }
+        }
     }
 }
