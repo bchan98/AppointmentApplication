@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
@@ -34,6 +31,7 @@ public class customerController implements Initializable {
 
     public static boolean isAdd = false;
     public static customer sendCustomer;
+    public Button exitButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -132,5 +130,10 @@ public class customerController implements Initializable {
             }
         }
         JDBC.closeConnection();
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
     }
 }
