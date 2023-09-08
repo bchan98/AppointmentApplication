@@ -134,21 +134,18 @@ public class customerQuery {
         return rowsAffected;
     }
 
-    public static customer findCustomer(int cID) throws SQLException {
-        ObservableList<customer> findCus = getAllCustomers();
-        boolean checkFlag = true;
-        int i = 0;
-        customer specCus = new customer(0, null, null, null, null, null, null, null, null, 0);
-
-        while(checkFlag) {
-            specCus = findCus.get(i);
-            if(specCus.getCustomerID() != cID) {
-                i++;
-            }
-            else {
-                checkFlag = false;
+    public static int findAppointments(customer nuCustomer) throws SQLException {
+        String sql = "SELECT * FROM APPOINTMENTS";
+        int appointmentCount = 0;
+        int thisID = nuCustomer.getCustomerID();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int checkID = rs.getInt("Customer_ID");
+            if(checkID == thisID) {
+                appointmentCount++;
             }
         }
-        return specCus;
+        return appointmentCount;
     }
 }

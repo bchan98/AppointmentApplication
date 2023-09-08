@@ -98,6 +98,7 @@ public class customerController implements Initializable {
 
     public void delCustomer(ActionEvent actionEvent) throws SQLException {
         int toDelete = 0;
+        JDBC.openConnection();
         if(customerDisplay.getSelectionModel().getSelectedItem() == null) {
             Alert errorM = new Alert(Alert.AlertType.ERROR);
             errorM.setTitle("No items selected");
@@ -106,25 +107,30 @@ public class customerController implements Initializable {
             errorM.show();
         }
         else {
-            customer delCustomer = (customer) customerDisplay.getSelectionModel().getSelectedItem();
-            toDelete = delCustomer.getCustomerID();
+            if (customerQuery.findAppointments((customer) customerDisplay.getSelectionModel().getSelectedItem()) == 0) {
+                customer delCustomer = (customer) customerDisplay.getSelectionModel().getSelectedItem();
+                toDelete = delCustomer.getCustomerID();
 
-            Alert confDel = new Alert(Alert.AlertType.CONFIRMATION);
-            confDel.setTitle("Confirm deletion");
-            confDel.setHeaderText("Deletion Warning");
-            confDel.setContentText("Are you sure you want to delete this customer?");
+                Alert confDel = new Alert(Alert.AlertType.CONFIRMATION);
+                confDel.setTitle("Confirm deletion");
+                confDel.setHeaderText("Deletion Warning");
+                confDel.setContentText("Are you sure you want to delete this customer?");
 
-            Optional<ButtonType> result = confDel.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                JDBC.openConnection();
-
-                customerQuery.delete(toDelete);
-                ObservableList<customer> showCustomers = FXCollections.observableArrayList();
-                showCustomers = customerQuery.getAllCustomers();
-                customerDisplay.setItems(showCustomers);
-
-                JDBC.closeConnection();
+                Optional<ButtonType> result = confDel.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    customerQuery.delete(toDelete);
+                    ObservableList<customer> showCustomers = FXCollections.observableArrayList();
+                    showCustomers = customerQuery.getAllCustomers();
+                    customerDisplay.setItems(showCustomers);
+                }
+            }
+            else {
+                Alert cantDel = new Alert(Alert.AlertType.WARNING);
+                cantDel.setTitle("Cannot delete this customer");
+                cantDel.setHeaderText("Customer still has appointments.");
+                cantDel.setContentText("This customer still has appointments planned in the system. Please delete all appointments with this customer before continuing.");
             }
         }
+        JDBC.closeConnection();
     }
 }
