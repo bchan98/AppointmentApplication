@@ -2,9 +2,12 @@ package sample.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import sample.DAO.JDBC;
 import sample.DAO.appointmentQuery;
@@ -26,6 +29,9 @@ public class appointmentController implements Initializable {
     public TableColumn appContCol;
     public TableColumn appTypeCol;
     public TableColumn appUIDCol;
+    public RadioButton weekSelect;
+    public ToggleGroup viewBy;
+    public RadioButton monthSelect;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -49,5 +55,29 @@ public class appointmentController implements Initializable {
         appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+    }
+
+    public void makeAppointment(ActionEvent actionEvent) {
+    }
+
+    public void updateAppointment(ActionEvent actionEvent) {
+    }
+
+    public void deleteAppointment(ActionEvent actionEvent) {
+    }
+
+    public void viewWeek(ActionEvent actionEvent) {
+    }
+
+    public void viewMonth(ActionEvent actionEvent) {
+    }
+
+    public void regressView(ActionEvent actionEvent) {
+    }
+
+    public void advanceView(ActionEvent actionEvent) {
+    }
+
+    public void exitWindow(ActionEvent actionEvent) {
     }
 }
