@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 public class appointmentQuery {
 
     private static ObservableList<appointment> allAppointments = FXCollections.observableArrayList();
+    private static ObservableList<String> allContacts = FXCollections.observableArrayList();
+    private static ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
 
     public static ObservableList<appointment> getAllAppointments() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS";
@@ -85,5 +87,35 @@ public class appointmentQuery {
 
     }
     **/
+
+    public static ObservableList<String> getAllContacts() throws SQLException {
+        allContacts.clear();
+
+        String sql = "SELECT * FROM CONTACTS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            String nuContact = rs.getString("Contact_Name");
+            allContacts.add(nuContact);
+        }
+
+        return allContacts;
+    }
+
+    public static ObservableList<String> getAllCustomerNames() throws SQLException {
+        allCustomerNames.clear();
+
+        String sql = "SELECT * FROM CUSTOMERS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            String nuContact = rs.getString("Customer_Name");
+            allCustomerNames.add(nuContact);
+        }
+
+        return allCustomerNames;
+    }
 }
 

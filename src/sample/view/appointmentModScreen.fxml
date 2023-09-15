@@ -15,9 +15,10 @@
    <children>
       <GridPane HBox.hgrow="ALWAYS">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="176.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="299.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="130.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="181.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="177.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="97.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="152.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -52,12 +53,12 @@
                   <Insets left="50.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Meeting Start Time" GridPane.rowIndex="5">
+            <Label text="Meeting Start Date" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="50.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Meeting End Time" GridPane.rowIndex="6">
+            <Label text="Meeting End Date" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="50.0" />
                </GridPane.margin>
@@ -67,13 +68,23 @@
                   <Insets left="50.0" />
                </padding>
             </Label>
-            <TextField fx:id="IDField" GridPane.columnIndex="1" />
+            <TextField fx:id="IDField" editable="false" opacity="0.5" GridPane.columnIndex="1" />
             <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="descField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="locField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="typeField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <DatePicker fx:id="startField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="timeStart" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </ComboBox>
             <DatePicker fx:id="endField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="timeEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </ComboBox>
             <ComboBox fx:id="customerBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <ComboBox fx:id="contactBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="Customer " GridPane.rowIndex="7">
@@ -92,6 +103,16 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
+            <Label text="Start Time" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="25.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="End Time" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="25.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </children>
