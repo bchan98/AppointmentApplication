@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 
 public class converter {
     public static int toUserID(String userName) throws SQLException {
@@ -124,7 +122,8 @@ public class converter {
     }
 
     public static Timestamp toUniversalTime(LocalDateTime time) {
-        Timestamp universalTime = Timestamp.valueOf(time);
+        Instant nuTime1 = time.toInstant(ZoneOffset.UTC);
+        Timestamp universalTime = Timestamp.from(nuTime1);
         return universalTime;
     }
 

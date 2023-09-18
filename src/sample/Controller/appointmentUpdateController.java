@@ -20,9 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -128,8 +126,8 @@ public class appointmentUpdateController implements Initializable {
             LocalDateTime nuStart1 = LocalDateTime.of(startDate, time1);
             LocalDateTime nuEnd1 = LocalDateTime.of(endDate, time2);
 
-            Timestamp nuStart = Timestamp.valueOf(nuStart1);
-            Timestamp nuEnd = Timestamp.valueOf(nuEnd1);
+            Timestamp nuStart = converter.toUniversalTime(nuStart1);
+            Timestamp nuEnd = converter.toUniversalTime(nuEnd1);
         }
 
         // make an appointment object and save to MySQL
