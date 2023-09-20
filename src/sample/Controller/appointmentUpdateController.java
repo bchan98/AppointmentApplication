@@ -22,7 +22,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class appointmentUpdateController implements Initializable {
     public TextField IDField;
@@ -38,13 +40,7 @@ public class appointmentUpdateController implements Initializable {
     public Button exitButton;
     public ComboBox timeStart;
     public ComboBox timeEnd;
-    public static Timestamp createTime;
-    public static String createUser;
-    public static Timestamp nuStart;
-    public static Timestamp nuEnd;
-    public static int nuCustomerID;
-    public static int nuUserID;
-    public static int nuContactID;
+
 
     private static ObservableList<String> allTimes;
     private static ObservableList<String> allContacts;
@@ -67,11 +63,19 @@ public class appointmentUpdateController implements Initializable {
 
 
     public void saveChanges(ActionEvent actionEvent) throws SQLException, IOException {
+        // initialize variables
         boolean checkFlag = true;
+        int nuCustomerID = 0;
+        int nuUserID = 0;
+        int nuContactID = 0;
+        Timestamp createTime = null;
+        String createUser = null;
+        Timestamp nuStart = null;
+        Timestamp nuEnd = null;
 
         // get raw data and check input is valid
         int nuAID = 0;
-        nuAID = Integer.getInteger(IDField.getText());
+        nuAID = Integer.parseInt(IDField.getText());
         String nuTitle = titleField.getText();
         String nuDesc = descField.getText();
         String nuLoc = locField.getText();
@@ -90,21 +94,25 @@ public class appointmentUpdateController implements Initializable {
 
             // get user/customer/contact ID;
             JDBC.openConnection();
-            int nuCustomerID = converter.toCustomerID(nuCustomer);
-            int nuContactID = converter.toContactID(nuContact);
-            int nuUserID = converter.toUserID(loginController.loggedUser);
+            nuCustomerID = converter.toCustomerID(nuCustomer);
+            nuContactID = converter.toContactID(nuContact);
+            nuUserID = converter.toUserID(loginController.loggedUser);
             JDBC.closeConnection();
+
+            System.out.println(nuCustomerID);
+            System.out.println(nuContactID);
+            System.out.println(nuUserID);
         }
 
         // get creation users/date and last update users/date
 
         if(appointmentController.isAdd) {
-            Timestamp createTime = new Timestamp(System.currentTimeMillis());
-            String createUser = loginController.loggedUser;
+            createTime = new Timestamp(System.currentTimeMillis());
+            createUser = loginController.loggedUser;
         }
         else {
-            Timestamp createTime = appointmentController.sendAppointment.getAppointmentCreationDate();
-            String createUser = appointmentController.sendAppointment.getAppointmentCreationUser();
+            createTime = appointmentController.sendAppointment.getAppointmentCreationDate();
+            createUser = appointmentController.sendAppointment.getAppointmentCreationUser();
         }
 
         Timestamp lastTime = new Timestamp(System.currentTimeMillis());
@@ -115,19 +123,23 @@ public class appointmentUpdateController implements Initializable {
             checkFlag = false;
         }
         else {
+            // gathers current data on recorded time and date
             LocalDate startDate = startField.getValue();
             String startTime = (String) timeStart.getValue();
             LocalDate endDate = endField.getValue();
             String endTime = (String) timeEnd.getValue();
 
+            // converts recorded time strings to actual time objects
             LocalTime time1 = LocalTime.parse(startTime);
             LocalTime time2 = LocalTime.parse(endTime);
 
+            // merges strings and date into one LocalDateTimeObject
             LocalDateTime nuStart1 = LocalDateTime.of(startDate, time1);
             LocalDateTime nuEnd1 = LocalDateTime.of(endDate, time2);
 
-            Timestamp nuStart = converter.toUniversalTime(nuStart1);
-            Timestamp nuEnd = converter.toUniversalTime(nuEnd1);
+            // converts LocalDateTime into a Timestamp with a conversion to UTC.
+            nuStart = converter.toUniversalTime(nuStart1);
+            nuEnd = converter.toUniversalTime(nuEnd1);
         }
 
         // make an appointment object and save to MySQL
@@ -139,10 +151,21 @@ public class appointmentUpdateController implements Initializable {
             errorM.show();
         }
         else {
-            JDBC.openConnection();
             appointment nuAppointment = new appointment(nuAID, nuTitle, nuDesc, nuLoc, nuType, nuStart, nuEnd, createTime, createUser, lastTime, lastUser, nuCustomerID, nuUserID, nuContactID);
-            appointmentQuery.create(nuAppointment);
-            JDBC.closeConnection();
+            if(appointmentController.isAdd) {
+                System.out.println(nuAppointment.getCustomerID());
+                System.out.println(nuAppointment.getUserID());
+                System.out.println(nuAppointment.getContactID());
+
+                JDBC.openConnection();
+                appointmentQuery.create(nuAppointment);
+                JDBC.closeConnection();
+            }
+            else {
+                JDBC.openConnection();
+                appointmentQuery.update(nuAppointment);
+                JDBC.closeConnection();
+            }
 
             // return to old window and close previous
             Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
@@ -197,12 +220,45 @@ public class appointmentUpdateController implements Initializable {
 
         // check if modify - if modify, fill in values
         if(!appointmentController.isAdd) {
-            //get strings to put in text fields
+            // get strings to put in text fields
             IDField.setText(String.valueOf(appointmentController.sendAppointment.getAppointmentID()));
             titleField.setText(appointmentController.sendAppointment.getTitle());
             descField.setText(appointmentController.sendAppointment.getDescription());
             locField.setText(appointmentController.sendAppointment.getLocation());
             typeField.setText(appointmentController.sendAppointment.getLocation());
+
+            // get timestamp, convert to LocalDateTime and separate into two objects to put into required fields.
+            LocalDateTime tempStart = converter.toUserTime(appointmentController.sendAppointment.getAppointmentStart());
+            LocalDateTime tempEnd = converter.toUserTime(appointmentController.sendAppointment.getAppointmentEnd());
+
+            LocalDate tempStartDate = tempStart.toLocalDate();
+            LocalTime tempStartTime = tempStart.toLocalTime();
+            LocalDate tempEndDate = tempEnd.toLocalDate();
+            LocalTime tempEndTime = tempEnd.toLocalTime();
+
+            // specify format for time string and convert time to string. put time into object.
+
+            DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+            String sendStartTime = tempStartTime.format(timeFormat);
+            String sendEndTime = tempEndTime.format(timeFormat);
+
+            System.out.println(TimeZone.getDefault());
+
+            timeStart.setValue(sendStartTime);
+            timeEnd.setValue(sendEndTime);
+            startField.setValue(tempStartDate);
+            endField.setValue(tempEndDate);
+
+            JDBC.openConnection();
+            try {
+                String contactName = converter.toContactName(appointmentController.sendAppointment.getContactID());
+                String customerName = converter.toCustomerName(appointmentController.sendAppointment.getCustomerID());
+                contactBox.setValue(contactName);
+                customerBox.setValue(customerName);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            JDBC.closeConnection();
         }
         // if create, get new appointmentID
         else {

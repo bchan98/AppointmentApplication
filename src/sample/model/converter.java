@@ -20,7 +20,7 @@ public class converter {
 
         while(rs.next()) {
             String checkName = rs.getString("User_Name");
-            if(checkName == userName) {
+            if(checkName.equals(userName)) {
                 subID = rs.getInt("User_ID");
             }
         }
@@ -40,7 +40,6 @@ public class converter {
                 subName = rs.getString("User_Name");
             }
         }
-
         return subName;
 
     }
@@ -53,7 +52,7 @@ public class converter {
 
         while(rs.next()) {
             String checkName = rs.getString("Customer_Name");
-            if(checkName == customerName) {
+            if(checkName.equals(customerName)) {
                 subID = rs.getInt("Customer_ID");
             }
         }
@@ -85,7 +84,7 @@ public class converter {
 
         while(rs.next()) {
             String checkName = rs.getString("Contact_Name");
-            if(checkName == contactName) {
+            if(checkName.equals(contactName)) {
                 subID = rs.getInt("Contact_ID");
             }
         }
@@ -109,9 +108,11 @@ public class converter {
         return subName;
     }
 
-    public static ZonedDateTime toUserTime(Timestamp time) {
-        LocalDateTime conOne = time.toLocalDateTime();
-        ZonedDateTime sysTime = conOne.atZone(ZoneId.systemDefault());
+    public static LocalDateTime toUserTime(Timestamp time) {
+        ZoneId compTime = ZoneId.systemDefault();
+        Instant curTime = time.toInstant();
+        ZonedDateTime tempTime = curTime.atZone(compTime);
+        LocalDateTime sysTime = tempTime.toLocalDateTime();
         return sysTime;
     }
 

@@ -7,19 +7,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
 import sample.DAO.appointmentQuery;
+import sample.DAO.customerQuery;
 import sample.model.appointment;
+import sample.model.customer;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class appointmentController implements Initializable {
@@ -93,7 +93,34 @@ public class appointmentController implements Initializable {
         curStage.close();
     }
 
-    public void deleteAppointment(ActionEvent actionEvent) {
+    public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
+        int toDelete = 0;
+        JDBC.openConnection();
+        if(appointmentDisplay.getSelectionModel().getSelectedItem() == null) {
+            Alert errorM = new Alert(Alert.AlertType.ERROR);
+            errorM.setTitle("No items selected");
+            errorM.setHeaderText("Missing items required to delete.");
+            errorM.setContentText("Please ensure that you have selected a customer to be deleted.");
+            errorM.show();
+        }
+        else {
+            appointment delAppointment = (appointment) appointmentDisplay.getSelectionModel().getSelectedItem();
+            toDelete = delAppointment.getAppointmentID();
+
+            Alert confDel = new Alert(Alert.AlertType.CONFIRMATION);
+            confDel.setTitle("Confirm deletion");
+            confDel.setHeaderText("Deletion Warning");
+            confDel.setContentText("Are you sure you want to delete this appointment?");
+
+            Optional<ButtonType> result = confDel.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                appointmentQuery.delete(toDelete);
+                ObservableList<appointment> listAppointment = FXCollections.observableArrayList();
+                listAppointment = appointmentQuery.getAllAppointments();
+                appointmentDisplay.setItems(listAppointment);
+            }
+        }
+        JDBC.closeConnection();
     }
 
     public void viewWeek(ActionEvent actionEvent) {

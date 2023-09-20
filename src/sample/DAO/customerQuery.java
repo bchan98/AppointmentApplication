@@ -117,8 +117,6 @@ public class customerQuery {
         String nuLastUpdateBy = nuCustomer.getLastUpdateBy();
         int nuDiv = nuCustomer.getDivisionID();
 
-        System.out.println(nuID);
-
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, nuName);

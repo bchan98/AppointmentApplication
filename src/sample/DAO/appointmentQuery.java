@@ -60,7 +60,6 @@ public class appointmentQuery {
         int nuUserID = nuAppointment.getUserID();
         int nuContactID = nuAppointment.getContactID();
 
-
         String sql = "INSERT INTO APPOINTMENTS (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, nuAppointmentID);
@@ -82,11 +81,49 @@ public class appointmentQuery {
         return rowsAffected;
     }
 
-    /**
-    public static int remove(appointment nuAppointment) throws SQLException {
+    public static int update(appointment nuAppointment) throws SQLException {
+        int nuAppointmentID = nuAppointment.getAppointmentID();
+        String nuTitle = nuAppointment.getTitle();
+        String nuDescription = nuAppointment.getDescription();
+        String nuLocation = nuAppointment.getLocation();
+        String nuType = nuAppointment.getAppointmentType();
+        Timestamp nuStart = nuAppointment.getAppointmentStart();
+        Timestamp nuEnd = nuAppointment.getAppointmentEnd();
+        Timestamp nuCreateDate = nuAppointment.getAppointmentCreationDate();
+        String nuCreateBy = nuAppointment.getAppointmentCreationUser();
+        Timestamp nuLastUpdate = nuAppointment.getAppointmentLastUpdate();
+        String nuLastUpdatedBy = nuAppointment.getAppointmentLastUpdatedBy();
+        int nuCustomerID = nuAppointment.getCustomerID();
+        int nuUserID = nuAppointment.getUserID();
+        int nuContactID = nuAppointment.getContactID();
 
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, nuTitle);
+        ps.setString(2, nuDescription);
+        ps.setString(3, nuLocation);
+        ps.setString(4, nuType);
+        ps.setTimestamp(5, nuStart);
+        ps.setTimestamp(6, nuEnd);
+        ps.setTimestamp(7, nuLastUpdate);
+        ps.setString(8, nuLastUpdatedBy);
+        ps.setInt(9, nuCustomerID);
+        ps.setInt(10, nuUserID);
+        ps.setInt(11, nuContactID);
+        ps.setInt(12, nuAppointmentID);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
     }
-    **/
+
+
+    public static int delete(int appointmentID) throws SQLException {
+        String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, appointmentID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
 
     public static ObservableList<String> getAllContacts() throws SQLException {
         allContacts.clear();
