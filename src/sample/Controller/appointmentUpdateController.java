@@ -72,6 +72,7 @@ public class appointmentUpdateController implements Initializable {
         String createUser = null;
         Timestamp nuStart = null;
         Timestamp nuEnd = null;
+        boolean noOverlapFlag = true;
 
         // get raw data and check input is valid
         int nuAID = 0;
@@ -152,31 +153,45 @@ public class appointmentUpdateController implements Initializable {
         }
         else {
             appointment nuAppointment = new appointment(nuAID, nuTitle, nuDesc, nuLoc, nuType, nuStart, nuEnd, createTime, createUser, lastTime, lastUser, nuCustomerID, nuUserID, nuContactID);
-            if(appointmentController.isAdd) {
-                System.out.println(nuAppointment.getCustomerID());
-                System.out.println(nuAppointment.getUserID());
-                System.out.println(nuAppointment.getContactID());
 
-                JDBC.openConnection();
-                appointmentQuery.create(nuAppointment);
-                JDBC.closeConnection();
+            JDBC.openConnection();
+            noOverlapFlag = appointmentQuery.checkOverlap(nuAppointment);
+            JDBC.closeConnection();
+
+            if(noOverlapFlag == false) {
+                Alert errorW = new Alert(Alert.AlertType.ERROR);
+                errorW.setTitle("Overlap in appointment times!");
+                errorW.setHeaderText("Overlap in appointment time detected!");
+                errorW.setContentText("Your appointment currently has an overlap with another appointment time. Please adjust this or conflicting appointment times.");
+                errorW.show();
             }
             else {
-                JDBC.openConnection();
-                appointmentQuery.update(nuAppointment);
-                JDBC.closeConnection();
+                if(appointmentController.isAdd) {
+                    System.out.println(nuAppointment.getCustomerID());
+                    System.out.println(nuAppointment.getUserID());
+                    System.out.println(nuAppointment.getContactID());
+
+                    JDBC.openConnection();
+                    appointmentQuery.create(nuAppointment);
+                    JDBC.closeConnection();
+                }
+                else {
+                    JDBC.openConnection();
+                    appointmentQuery.update(nuAppointment);
+                    JDBC.closeConnection();
+                }
+
+                // return to old window and close previous
+                Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
+                Stage stage = new Stage();
+                Scene scene = new Scene(root, 1000, 400);
+                stage.setTitle ("Appointments");
+                stage.setScene(scene);
+                stage.show();
+
+                Stage curStage = (Stage) saveButton.getScene().getWindow();
+                curStage.close();
             }
-
-            // return to old window and close previous
-            Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
-            Stage stage = new Stage();
-            Scene scene = new Scene(root, 1000, 400);
-            stage.setTitle ("Appointments");
-            stage.setScene(scene);
-            stage.show();
-
-            Stage curStage = (Stage) saveButton.getScene().getWindow();
-            curStage.close();
         }
     }
 

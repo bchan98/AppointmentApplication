@@ -3,11 +3,12 @@ package sample.DAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.appointment;
+import sample.model.converter;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class appointmentQuery {
 
@@ -153,6 +154,38 @@ public class appointmentQuery {
         }
 
         return allCustomerNames;
+    }
+
+    public static boolean checkOverlap(appointment checkAppointment) throws SQLException {
+        boolean check = true;
+        int findCus = checkAppointment.getCustomerID();
+
+        // break down dates into components.
+        Timestamp startT = checkAppointment.getAppointmentStart();
+        Timestamp endT = checkAppointment.getAppointmentEnd();
+
+        LocalDateTime startDate = converter.toUserTime(startT);
+        LocalDateTime endDate = converter.toUserTime(endT);
+
+        String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, findCus);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            // break down dates into components
+            Timestamp checkS = rs.getTimestamp("Start");
+            Timestamp checkE = rs.getTimestamp("End");
+
+            LocalDateTime checkStart = converter.toUserTime(checkS);
+            LocalDateTime checkEnd = converter.toUserTime(checkE);
+
+            if((checkStart.isBefore(startDate) && checkEnd.isAfter(startDate)) || (checkStart.isAfter(startDate) && checkStart.isBefore(startDate)) || (checkStart.isBefore(startDate) && checkEnd.isAfter(endDate)) || (checkStart.isAfter(startDate) && checkEnd.isBefore(endDate))) {
+                check = false;
+            }
+        }
+
+        return check;
     }
 }
 
