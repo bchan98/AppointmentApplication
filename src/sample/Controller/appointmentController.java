@@ -19,6 +19,7 @@ import sample.model.customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -38,7 +39,10 @@ public class appointmentController implements Initializable {
     public ToggleGroup viewBy;
     public RadioButton monthSelect;
     public static boolean isAdd = true;
+    public static boolean isMonth = true;
     public static appointment sendAppointment;
+    public Button exitButton;
+    public DatePicker dateFinder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,6 +66,8 @@ public class appointmentController implements Initializable {
         appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+        dateFinder.setValue(LocalDate.now());
     }
 
     public void makeAppointment(ActionEvent actionEvent) throws IOException {
@@ -124,17 +130,112 @@ public class appointmentController implements Initializable {
     }
 
     public void viewWeek(ActionEvent actionEvent) {
+        isMonth = false;
     }
 
     public void viewMonth(ActionEvent actionEvent) {
+        isMonth = true;
     }
 
-    public void regressView(ActionEvent actionEvent) {
+    public void regressView(ActionEvent actionEvent) throws SQLException {
+        LocalDate oldDate = dateFinder.getValue();
+        LocalDate selectedDate;
+        if (isMonth) {
+            selectedDate = oldDate.minusDays(30);
+        }
+        else {
+            selectedDate = oldDate.minusDays(7);
+        }
+        dateFinder.setValue(selectedDate);
+
+        ObservableList<appointment> showList = FXCollections.observableArrayList();
+        // check if searching by month or week and obtain list
+        JDBC.openConnection();
+        if (isMonth) {
+            showList = appointmentQuery.getMonthlyAppointments(selectedDate);
+        }
+        else {
+            showList = appointmentQuery.getWeeklyAppointments(selectedDate);
+        }
+        JDBC.closeConnection();
+
+        appointmentDisplay.setItems(showList);
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
+        appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
+        appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
-    public void advanceView(ActionEvent actionEvent) {
+    public void advanceView(ActionEvent actionEvent) throws SQLException {
+        LocalDate oldDate = dateFinder.getValue();
+        LocalDate selectedDate;
+        if (isMonth) {
+            selectedDate = oldDate.plusDays(30);
+        }
+        else {
+            selectedDate = oldDate.plusDays(7);
+        }
+        dateFinder.setValue(selectedDate);
+        System.out.println(selectedDate);
+
+        ObservableList<appointment> showList = FXCollections.observableArrayList();
+        // check if searching by month or week and obtain list
+        JDBC.openConnection();
+        if (isMonth) {
+            showList = appointmentQuery.getMonthlyAppointments(selectedDate);
+        }
+        else {
+            showList = appointmentQuery.getWeeklyAppointments(selectedDate);
+        }
+        JDBC.closeConnection();
+
+        appointmentDisplay.setItems(showList);
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
+        appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
+        appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     public void exitWindow(ActionEvent actionEvent) {
+    }
+
+    public void searchForAppointments(ActionEvent actionEvent) throws SQLException {
+        // grab date and initialize list
+        ObservableList<appointment> showList = FXCollections.observableArrayList();
+        LocalDate selectedDate = dateFinder.getValue();
+        // check if searching by month or week and obtain list
+        JDBC.openConnection();
+        if (isMonth) {
+            showList = appointmentQuery.getMonthlyAppointments(selectedDate);
+        }
+        else {
+            showList = appointmentQuery.getWeeklyAppointments(selectedDate);
+        }
+        JDBC.closeConnection();
+
+        appointmentDisplay.setItems(showList);
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
+        appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
+        appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
     }
 }

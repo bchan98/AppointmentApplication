@@ -6,13 +6,15 @@ import sample.model.appointment;
 import sample.model.converter;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.util.Date.*;
+import java.util.Calendar;
 
 public class appointmentQuery {
 
     private static ObservableList<appointment> allAppointments = FXCollections.observableArrayList();
+    private static ObservableList<appointment> checkWeek = FXCollections.observableArrayList();
+    private static ObservableList<appointment> checkMonth = FXCollections.observableArrayList();
     private static ObservableList<String> allContacts = FXCollections.observableArrayList();
     private static ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
 
@@ -42,6 +44,84 @@ public class appointmentQuery {
             allAppointments.add(nuAppointment);
         }
         return allAppointments;
+    }
+
+    public static ObservableList<appointment> getWeeklyAppointments(LocalDate nuDate) throws SQLException {
+        // advance/regress dates as needed
+        LocalDate newStart = nuDate.minusDays(3);
+        LocalDate newEnd = nuDate.plusDays(3);
+
+        // execute string
+        String sql = "SELECT * FROM APPOINTMENTS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+        checkWeek.clear();
+
+        while (rs.next()) {
+            int nuAppointmentID = rs.getInt("Appointment_ID");
+            String nuTitle = rs.getString("Title");
+            String nuDescription = rs.getString("Description");
+            String nuLocation = rs.getString("Location");
+            String nuType = rs.getString("Type");
+            Timestamp nuStart = rs.getTimestamp("Start");
+            Timestamp nuEnd = rs.getTimestamp("End");
+            Timestamp nuCreateDate = rs.getTimestamp("Create_Date");
+            String nuCreateBy = rs.getString("Created_By");
+            Timestamp nuLastUpdate = rs.getTimestamp("Last_Update");
+            String nuLastUpdatedBy = rs.getString("Last_Updated_By");
+            int nuCustomerID = rs.getInt("Customer_ID");
+            int nuUserID = rs.getInt("User_ID");
+            int nuContactID = rs.getInt("Contact_ID");
+
+            appointment nuAppointment = new appointment(nuAppointmentID, nuTitle, nuDescription, nuLocation, nuType, nuStart, nuEnd, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdatedBy, nuCustomerID, nuUserID, nuContactID);
+            // check if date falls between required values
+            LocalDate checkStart = nuStart.toLocalDateTime().toLocalDate();
+            LocalDate checkEnd = nuEnd.toLocalDateTime().toLocalDate();
+            if(checkStart.isAfter(newStart) && checkEnd.isBefore(newEnd)) {
+                checkWeek.add(nuAppointment);
+            }
+        }
+        return checkWeek;
+    }
+
+    public static ObservableList<appointment> getMonthlyAppointments(LocalDate nuDate) throws SQLException {
+        // advance/regress dates as needed
+        LocalDate newStart = nuDate.minusDays(15);
+        LocalDate newEnd = nuDate.plusDays(15);
+
+        // execute string
+        String sql = "SELECT * FROM APPOINTMENTS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+        checkMonth.clear();
+
+        while (rs.next()) {
+            int nuAppointmentID = rs.getInt("Appointment_ID");
+            String nuTitle = rs.getString("Title");
+            String nuDescription = rs.getString("Description");
+            String nuLocation = rs.getString("Location");
+            String nuType = rs.getString("Type");
+            Timestamp nuStart = rs.getTimestamp("Start");
+            Timestamp nuEnd = rs.getTimestamp("End");
+            Timestamp nuCreateDate = rs.getTimestamp("Create_Date");
+            String nuCreateBy = rs.getString("Created_By");
+            Timestamp nuLastUpdate = rs.getTimestamp("Last_Update");
+            String nuLastUpdatedBy = rs.getString("Last_Updated_By");
+            int nuCustomerID = rs.getInt("Customer_ID");
+            int nuUserID = rs.getInt("User_ID");
+            int nuContactID = rs.getInt("Contact_ID");
+
+            appointment nuAppointment = new appointment(nuAppointmentID, nuTitle, nuDescription, nuLocation, nuType, nuStart, nuEnd, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdatedBy, nuCustomerID, nuUserID, nuContactID);
+            // check if end and start fall between date values
+            LocalDate checkStart = nuStart.toLocalDateTime().toLocalDate();
+            LocalDate checkEnd = nuEnd.toLocalDateTime().toLocalDate();
+            if(checkStart.isAfter(newStart) && checkEnd.isBefore(newEnd)) {
+                checkMonth.add(nuAppointment);
+            }
+        }
+        return checkMonth;
     }
 
     public static int create(appointment nuAppointment) throws SQLException {
@@ -116,7 +196,6 @@ public class appointmentQuery {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
-
 
     public static int delete(int appointmentID) throws SQLException {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
