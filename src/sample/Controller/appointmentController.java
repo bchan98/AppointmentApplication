@@ -14,12 +14,17 @@ import sample.DAO.JDBC;
 import sample.DAO.appointmentQuery;
 import sample.DAO.customerQuery;
 import sample.model.appointment;
+import sample.model.converter;
 import sample.model.customer;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 

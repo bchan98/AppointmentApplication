@@ -116,9 +116,11 @@ public class converter {
         return sysTime;
     }
 
-    public static ZonedDateTime toCompanyTime(Timestamp time) {
-        LocalDateTime conOne = time.toLocalDateTime();
-        ZonedDateTime companyTime = conOne.atZone(ZoneId.systemDefault());
+    public static LocalDateTime toCompanyTime(Timestamp time) {
+        ZoneId companyTimeZone = ZoneId.of("US/Eastern");
+        Instant curTime = time.toInstant();
+        ZonedDateTime tempTime = curTime.atZone(companyTimeZone);
+        LocalDateTime companyTime = tempTime.toLocalDateTime();
         return companyTime;
     }
 

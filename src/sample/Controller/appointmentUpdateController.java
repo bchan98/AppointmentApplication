@@ -153,7 +153,8 @@ public class appointmentUpdateController implements Initializable {
         }
         else {
             appointment nuAppointment = new appointment(nuAID, nuTitle, nuDesc, nuLoc, nuType, nuStart, nuEnd, createTime, createUser, lastTime, lastUser, nuCustomerID, nuUserID, nuContactID);
-
+            // make flags for last checks over timing
+            boolean checkHours = appointmentQuery.checkCompanyTime(nuAppointment);
             JDBC.openConnection();
             noOverlapFlag = appointmentQuery.checkOverlap(nuAppointment);
             JDBC.closeConnection();
@@ -163,6 +164,13 @@ public class appointmentUpdateController implements Initializable {
                 errorW.setTitle("Overlap in appointment times!");
                 errorW.setHeaderText("Overlap in appointment time detected!");
                 errorW.setContentText("Your appointment currently has an overlap with another appointment time. Please adjust this or conflicting appointment times.");
+                errorW.show();
+            }
+            else if(checkHours == false) {
+                Alert errorW = new Alert(Alert.AlertType.ERROR);
+                errorW.setTitle("Outside company hours!");
+                errorW.setHeaderText("This appointment lies outside company hours.");
+                errorW.setContentText("This appointment lies outside company hours. Please adjust the start and end times so they fall between company hours of 8:00 and 22:00 EST.");
                 errorW.show();
             }
             else {

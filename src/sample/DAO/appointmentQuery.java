@@ -266,5 +266,29 @@ public class appointmentQuery {
 
         return check;
     }
+
+    public static boolean checkCompanyTime(appointment checkAppointment) {
+        boolean check = true;
+        // grab appointment start and end times, convert to company hours
+        Timestamp startT = checkAppointment.getAppointmentStart();
+        Timestamp endT = checkAppointment.getAppointmentEnd();
+        LocalDateTime startDateTime = converter.toCompanyTime(startT);
+        LocalDateTime endDateTime = converter.toCompanyTime(endT);
+        // convert start and end times to localtime
+        LocalTime startDate = startDateTime.toLocalTime();
+        LocalTime endDate = endDateTime.toLocalTime();
+        // set company hours of 8 am and 10 pm
+        LocalTime checkStart = LocalTime.of(8, 0);
+        LocalTime checkEnd = LocalTime.of(22, 0);
+        // check if falls between company hours
+        if (!(startDate.isAfter(checkStart) && endDate.isBefore(checkEnd))) {
+            check = true;
+        }
+        else {
+            check = false;
+        }
+
+        return check;
+    }
 }
 
