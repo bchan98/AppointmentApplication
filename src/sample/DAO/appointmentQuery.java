@@ -2,13 +2,12 @@ package sample.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Controller.loginController;
 import sample.model.appointment;
 import sample.model.converter;
 
 import java.sql.*;
 import java.time.*;
-import java.util.Date.*;
-import java.util.Calendar;
 
 public class appointmentQuery {
 
@@ -281,7 +280,7 @@ public class appointmentQuery {
         LocalTime checkStart = LocalTime.of(8, 0);
         LocalTime checkEnd = LocalTime.of(22, 0);
         // check if falls between company hours
-        if (!(startDate.isAfter(checkStart) && endDate.isBefore(checkEnd))) {
+        if ((startDate.isAfter(checkStart) && endDate.isBefore(checkEnd))) {
             check = true;
         }
         else {
@@ -289,6 +288,42 @@ public class appointmentQuery {
         }
 
         return check;
+    }
+
+    public static appointment checkRecent(LocalDateTime curTime) throws SQLException {
+        appointment  returnAppointment = new appointment(0, null, null, null, null, null, null, null, null, null, null, 0, 0, 0);
+        int userID = converter.toUserID(loginController.loggedUser);
+        LocalDateTime afterTime = curTime.plusMinutes(15);
+
+        String sql = "SELECT * FROM APPOINTMENTS WHERE User_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, userID);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()) {
+            Timestamp appointStart = rs.getTimestamp("Start");
+            LocalDateTime checkTime = converter.toUserTime(appointStart);
+            if (checkTime.isAfter(curTime) && checkTime.isBefore(afterTime)) {
+                int nuAppointmentID = rs.getInt("Appointment_ID");
+                String nuTitle = rs.getString("Title");
+                String nuDescription = rs.getString("Description");
+                String nuLocation = rs.getString("Location");
+                String nuType = rs.getString("Type");
+                Timestamp nuStart = rs.getTimestamp("Start");
+                Timestamp nuEnd = rs.getTimestamp("End");
+                Timestamp nuCreateDate = rs.getTimestamp("Create_Date");
+                String nuCreateBy = rs.getString("Created_By");
+                Timestamp nuLastUpdate = rs.getTimestamp("Last_Update");
+                String nuLastUpdatedBy = rs.getString("Last_Updated_By");
+                int nuCustomerID = rs.getInt("Customer_ID");
+                int nuUserID = rs.getInt("User_ID");
+                int nuContactID = rs.getInt("Contact_ID");
+
+                appointment nuAppointment = new appointment(nuAppointmentID, nuTitle, nuDescription, nuLocation, nuType, nuStart, nuEnd, nuCreateDate, nuCreateBy, nuLastUpdate, nuLastUpdatedBy, nuCustomerID, nuUserID, nuContactID);
+                returnAppointment = nuAppointment;
+            }
+        }
+        return returnAppointment;
     }
 }
 

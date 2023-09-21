@@ -110,23 +110,32 @@ public class converter {
 
     public static LocalDateTime toUserTime(Timestamp time) {
         ZoneId compTime = ZoneId.systemDefault();
-        Instant curTime = time.toInstant();
-        ZonedDateTime tempTime = curTime.atZone(compTime);
+        ZoneId universalZone = ZoneId.of("UTC");
+
+        LocalDateTime preConversion = time.toLocalDateTime();
+        ZonedDateTime beforeConversion = ZonedDateTime.of(preConversion, universalZone);
+        ZonedDateTime tempTime = beforeConversion.withZoneSameInstant(compTime);
         LocalDateTime sysTime = tempTime.toLocalDateTime();
         return sysTime;
     }
 
     public static LocalDateTime toCompanyTime(Timestamp time) {
         ZoneId companyTimeZone = ZoneId.of("US/Eastern");
-        Instant curTime = time.toInstant();
-        ZonedDateTime tempTime = curTime.atZone(companyTimeZone);
-        LocalDateTime companyTime = tempTime.toLocalDateTime();
+        ZoneId universalZone = ZoneId.of("UTC");
+
+        LocalDateTime pretempTime = time.toLocalDateTime();
+        ZonedDateTime tempTime = ZonedDateTime.of(pretempTime, universalZone);
+        ZonedDateTime convertedTime = tempTime.withZoneSameInstant(companyTimeZone);
+        LocalDateTime companyTime = convertedTime.toLocalDateTime();
         return companyTime;
     }
 
     public static Timestamp toUniversalTime(LocalDateTime time) {
-        Instant nuTime1 = time.toInstant(ZoneOffset.UTC);
-        Timestamp universalTime = Timestamp.from(nuTime1);
+        ZoneId universalZone = ZoneId.of("UTC");
+        ZonedDateTime unconvertedTime = time.atZone(ZoneId.systemDefault());
+        ZonedDateTime convertedTime = unconvertedTime.withZoneSameInstant(universalZone);
+        LocalDateTime preTimestamp = convertedTime.toLocalDateTime();
+        Timestamp universalTime = Timestamp.valueOf(preTimestamp);
         return universalTime;
     }
 
