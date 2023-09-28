@@ -9,12 +9,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class reporter {
 
-    public static void loginChecker() throws IOException {
-        String filename = "login_activity.txt", item;
+    public static void loginChecker(String attemptUser, String attemptPass, boolean valid) throws IOException {
+        String inputData = null;
+        String filename = "login_activity.txt";
+        FileWriter writer = new FileWriter(filename, true);
 
+        LocalDateTime curTime = LocalDateTime.now();
+        String writeTime = curTime.toString();
+
+        System.out.println(valid);
+
+        if(valid) {
+            inputData = "A login attempt was made at " + writeTime + " by " + attemptUser + " by inputting the correct password.";
+        }
+        else {
+            inputData = "An unsuccesful login attempt was made at " + writeTime + " by " + attemptUser + " by inputting the incorrect password " + attemptPass + ".";
+        }
+
+        writer.write(inputData);
+        writer.write(System.lineSeparator());
+        writer.close();
     }
 
     public static ObservableList<String> getAppointmentReport() throws SQLException {

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
 import sample.DAO.userQuery;
+import sample.model.reporter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,7 @@ public class loginController implements Initializable {
 
         JDBC.openConnection();
         boolean success = userQuery.verifyCredentials(usr, pass);
+        reporter.loginChecker(usr, pass, success);
         if(success == true)
         {
             loggedUser = usr;
