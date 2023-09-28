@@ -22,7 +22,15 @@ import java.util.ResourceBundle;
 
 public class menuController implements Initializable {
     public Button logoutButton;
+    public Button customerSel;
+    public Button appSel;
+    public Button reportButton;
 
+    /** This method sends the user to the appointmentController. Sends the user to the screen where appointments can be viewed and/or modified.
+     *
+     * @param actionEvent Triggers upon pressing the appSel button.
+     * @throws IOException
+     */
     public void sendToAppointments(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
         Stage stage = new Stage();
@@ -35,6 +43,11 @@ public class menuController implements Initializable {
         prevStage.close();
     }
 
+    /** This method sends the user to the customerController. Sends the user to the screen where customers can be viewed and/or modified.
+     *
+     * @param actionEvent Triggers upon pressing the cusSel button.
+     * @throws IOException
+     */
     public void sendToCustomers(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/customerScreen.fxml"));
         Stage stage = new Stage();
@@ -48,6 +61,9 @@ public class menuController implements Initializable {
     }
 
     @Override
+    /** This method initializes the window. This checks the current time to determine if any incoming appointments are near to alert the user.
+     *
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -87,6 +103,9 @@ public class menuController implements Initializable {
             throwables.printStackTrace();
         }
 
+        /** This lambda expression handles logging out of the main menu. This is a simple JavaFX method that can be quickly called to return the user to the main login screen.
+         *
+         */
         logoutButton.setOnAction(event -> {
             Parent root = null;
             try {
@@ -105,6 +124,11 @@ public class menuController implements Initializable {
         });
     }
 
+    /** This method sends the user to the reportController. Sends the user to the screen where various reports can be viewed.
+     *
+     * @param actionEvent Triggers upon pressing the reportButton.
+     * @throws IOException
+     */
     public void viewReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/reportScreen.fxml"));
         Stage stage = new Stage();

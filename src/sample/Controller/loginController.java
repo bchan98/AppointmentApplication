@@ -30,6 +30,12 @@ public class loginController implements Initializable {
     private static String passPrompt;
     private static String timezoneLabel;
 
+    /** This method authenticates user information. Inputted username and passwords are checked with existing data in the MySQL database, before being either accepted or rejected, with login attempts being logged.
+     *
+     * @param actionEvent Triggers upon pressing the loginButton
+     * @throws SQLException
+     * @throws IOException
+     */
     public void checkPass(ActionEvent actionEvent) throws SQLException, IOException {
         String usr = userField.getText();
         String pass = passField.getText();
@@ -62,6 +68,9 @@ public class loginController implements Initializable {
     }
 
     @Override
+    /** This method initializes the window. Checks the system timezone and locale, before changing button text to either English or French when detected.
+     *
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Locale thisLocale = Locale.getDefault();
         String sysLang = thisLocale.getLanguage();
