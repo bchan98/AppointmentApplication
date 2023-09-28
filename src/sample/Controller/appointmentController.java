@@ -50,6 +50,9 @@ public class appointmentController implements Initializable {
     public DatePicker dateFinder;
 
     @Override
+    /** This method initializes the appointmentController. Initializes the appointmentDisplay TableView.
+     * @param actionEvent triggers when the window is opened.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<appointment> listAppointment = FXCollections.observableArrayList();
         JDBC.openConnection();
@@ -75,6 +78,11 @@ public class appointmentController implements Initializable {
         dateFinder.setValue(LocalDate.now());
     }
 
+    /** This method sends the user to the appointmentMod screen. Sends the user to make a new appointment.
+     *
+     * @param actionEvent triggers upon button press.
+     * @throws IOException
+     */
     public void makeAppointment(ActionEvent actionEvent) throws IOException {
         isAdd = true;
 
@@ -89,6 +97,11 @@ public class appointmentController implements Initializable {
         curStage.close();
     }
 
+    /** This method sends the user to the appointmentMod screen. Sends the user to modify the selected appointment..
+     *
+     * @param actionEvent triggers upon button press.
+     * @throws IOException
+     */
     public void updateAppointment(ActionEvent actionEvent) throws IOException {
         isAdd = false;
         sendAppointment = (appointment) appointmentDisplay.getSelectionModel().getSelectedItem();
@@ -104,6 +117,11 @@ public class appointmentController implements Initializable {
         curStage.close();
     }
 
+    /** This method deletes the selected appointment. Deletes the appointment after a series of logic checks.
+     *
+     * @param actionEvent triggers upon pressing the deleteAppointment button.
+     * @throws SQLException
+     */
     public void deleteAppointment(ActionEvent actionEvent) throws SQLException {
         int toDelete = 0;
         JDBC.openConnection();
@@ -141,12 +159,54 @@ public class appointmentController implements Initializable {
         JDBC.closeConnection();
     }
 
-    public void viewWeek(ActionEvent actionEvent) {
+    /** This method sets the flag of isMonth to false. Allows for information to be passed to the advance/regress view window.
+     *
+     * @param actionEvent
+     */
+    public void viewWeek(ActionEvent actionEvent) throws SQLException {
         isMonth = false;
+        LocalDate selectedDate = dateFinder.getValue();
+
+        ObservableList<appointment> showList = FXCollections.observableArrayList();
+        // check if searching by month or week and obtain list
+        JDBC.openConnection();
+        showList = appointmentQuery.getWeeklyAppointments(selectedDate);
+        JDBC.closeConnection();
+
+        appointmentDisplay.setItems(showList);
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
+        appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
+        appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
-    public void viewMonth(ActionEvent actionEvent) {
+    public void viewMonth(ActionEvent actionEvent) throws SQLException {
         isMonth = true;
+        LocalDate selectedDate = dateFinder.getValue();
+
+        ObservableList<appointment> showList = FXCollections.observableArrayList();
+        // check if searching by month or week and obtain list
+        JDBC.openConnection();
+        showList = appointmentQuery.getMonthlyAppointments(selectedDate);
+        JDBC.closeConnection();
+
+        appointmentDisplay.setItems(showList);
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appStartCol.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
+        appEndCol.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
+        appCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appContCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     public void regressView(ActionEvent actionEvent) throws SQLException {

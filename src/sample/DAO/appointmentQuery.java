@@ -47,8 +47,8 @@ public class appointmentQuery {
 
     public static ObservableList<appointment> getWeeklyAppointments(LocalDate nuDate) throws SQLException {
         // advance/regress dates as needed
-        LocalDate newStart = nuDate.minusDays(3);
-        LocalDate newEnd = nuDate.plusDays(3);
+        LocalDate newStart = nuDate.minusDays(1);
+        LocalDate newEnd = nuDate.plusDays(8);
 
         // execute string
         String sql = "SELECT * FROM APPOINTMENTS";
@@ -86,8 +86,8 @@ public class appointmentQuery {
 
     public static ObservableList<appointment> getMonthlyAppointments(LocalDate nuDate) throws SQLException {
         // advance/regress dates as needed
-        LocalDate newStart = nuDate.minusDays(15);
-        LocalDate newEnd = nuDate.plusDays(15);
+        LocalDate newStart = nuDate.minusDays(1);
+        LocalDate newEnd = nuDate.plusDays(31);
 
         // execute string
         String sql = "SELECT * FROM APPOINTMENTS";
