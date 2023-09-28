@@ -20,11 +20,7 @@ import sample.model.customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -159,9 +155,10 @@ public class appointmentController implements Initializable {
         JDBC.closeConnection();
     }
 
-    /** This method sets the flag of isMonth to false. Allows for information to be passed to the advance/regress view window.
+    /** This method sets the flag of isMonth to false. Allows for information to be passed to the advance/regress view window and changes TableView to reflect on current view.
      *
-     * @param actionEvent
+     * @param actionEvent Triggers upon switching of the radiobutton.
+     * @throws SQLException
      */
     public void viewWeek(ActionEvent actionEvent) throws SQLException {
         isMonth = false;
@@ -186,6 +183,11 @@ public class appointmentController implements Initializable {
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** This method sets the flag of isMonth to true. Allows for information to be passed to the advance/regress view window and changes TableView to reflect on current view.
+     *
+     * @param actionEvent Triggers upon switching of the radiobutton.
+     * @throws SQLException
+     */
     public void viewMonth(ActionEvent actionEvent) throws SQLException {
         isMonth = true;
         LocalDate selectedDate = dateFinder.getValue();
@@ -209,6 +211,11 @@ public class appointmentController implements Initializable {
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** This method regresses the selected date. Regresses the date by either one month or one week, to change TableView to reflect on current view.
+     *
+     * @param actionEvent Triggers upon pressing the regress button.
+     * @throws SQLException
+     */
     public void regressView(ActionEvent actionEvent) throws SQLException {
         LocalDate oldDate = dateFinder.getValue();
         LocalDate selectedDate;
@@ -244,6 +251,11 @@ public class appointmentController implements Initializable {
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** This method advances the selected date. Advances the date by either one month or one week, to change TableView to reflect on current view.
+     *
+     * @param actionEvent Triggers upon selecting a date on the advance button.
+     * @throws SQLException
+     */
     public void advanceView(ActionEvent actionEvent) throws SQLException {
         LocalDate oldDate = dateFinder.getValue();
         LocalDate selectedDate;
@@ -280,6 +292,11 @@ public class appointmentController implements Initializable {
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** This method closes the window. Closes the window and sends the user back to the main menu.
+     *
+     * @param actionEvent Triggers upon pressing the exitButton.
+     * @throws IOException
+     */
     public void exitWindow(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
         Stage stage = new Stage();
@@ -292,6 +309,11 @@ public class appointmentController implements Initializable {
         prevStage.close();
     }
 
+    /** This method searches for appointments at the selected date. Checks if viewing by month/week and then looks for appointments after the found date.
+     *
+     * @param actionEvent Triggers upon selecting a date on the dateFinder.
+     * @throws SQLException
+     */
     public void searchForAppointments(ActionEvent actionEvent) throws SQLException {
         // grab date and initialize list
         ObservableList<appointment> showList = FXCollections.observableArrayList();

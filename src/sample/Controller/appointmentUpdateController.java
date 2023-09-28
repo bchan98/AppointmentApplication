@@ -46,6 +46,10 @@ public class appointmentUpdateController implements Initializable {
     private static ObservableList<String> allContacts;
     private static ObservableList<String> allCustomerNames;
 
+    /** This method generates a list of times in fifteen minute intervals. Runs a loop with all times to be put into the time selection portion of the list.
+     *
+     * @return Returns an ObservableList allTimes to be put into the combobox timeStart and timeEnd.
+     */
     public ObservableList<String> generateTime() {
         ObservableList<String> nuTimes = FXCollections.observableArrayList();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -61,7 +65,12 @@ public class appointmentUpdateController implements Initializable {
         return nuTimes;
     }
 
-
+    /** This method saves changes made to an appointment. Checks if the appointment is created/modified and goes through several logic checks. before calling the appointmentQuery class.
+     *
+     * @param actionEvent Triggers upon pressing saveButton.
+     * @throws SQLException
+     * @throws IOException
+     */
     public void saveChanges(ActionEvent actionEvent) throws SQLException, IOException {
         // initialize variables
         boolean checkFlag = true;
@@ -203,7 +212,11 @@ public class appointmentUpdateController implements Initializable {
         }
     }
 
-
+    /** This method sends the user back to the appointmentScreen. Cancels any changes and returns the user back to the original screen.
+     *
+     * @param actionEvent Triggers upon pressing the exitButton.
+     * @throws IOException
+     */
     public void exitWindow(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
         Stage stage = new Stage();
@@ -217,6 +230,10 @@ public class appointmentUpdateController implements Initializable {
     }
 
     @Override
+    /** This method initializes the window. Checks to determine if any information is passed from the original window and fills in the appropriate fields.
+     *
+     * @param sendAppointment If modifying, the appointment sent by the appointmentController to be modified.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // get all customers + all contacts to populate combo boxes
@@ -295,6 +312,11 @@ public class appointmentUpdateController implements Initializable {
         }
     }
 
+    /** This finds the ID of the last appointment existing. Checks the MySQL database for existing appointments.
+     *
+     * @return Returns the appointment ID of the last appointment made.
+     * @throws SQLException
+     */
     public int getLastAID() throws SQLException {
         int counter = 0;
         String sql = "SELECT * FROM APPOINTMENTS";
