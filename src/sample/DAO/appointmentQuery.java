@@ -17,6 +17,11 @@ public class appointmentQuery {
     private static ObservableList<String> allContacts = FXCollections.observableArrayList();
     private static ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
 
+    /** This method pulls up all appointments in the MySQL database. All appointments existing within the MySQL database are selected and then information is put into appointment objects.
+     *
+     * @return Returns a list containing all appointments within the system.
+     * @throws SQLException
+     */
     public static ObservableList<appointment> getAllAppointments() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -45,6 +50,12 @@ public class appointmentQuery {
         return allAppointments;
     }
 
+    /** This method pulls up all appointments within a week of the selected date. All appointments existing within a week of the selected date are retrieved from the MySQL database are selected and then information is put into appointment objects.
+     *
+     * @param nuDate A LocalDate object passed to determine which date range should be selected.
+     * @return Returns a list containing all appointments within a week of the selected date found in the MySQL database.
+     * @throws SQLException
+     */
     public static ObservableList<appointment> getWeeklyAppointments(LocalDate nuDate) throws SQLException {
         // advance/regress dates as needed
         LocalDate newStart = nuDate.minusDays(1);
@@ -84,10 +95,16 @@ public class appointmentQuery {
         return checkWeek;
     }
 
+    /** This method pulls up all appointments within a month of the selected date. All appointments existing within a month of the selected date are retrieved from the MySQL database are selected and then information is put into appointment objects.
+     *
+     * @param nuDate A LocalDate object passed to determine which date range should be selected.
+     * @return Returns a list containing all appointments within a month of the selected date found in the MySQL database.
+     * @throws SQLException
+     */
     public static ObservableList<appointment> getMonthlyAppointments(LocalDate nuDate) throws SQLException {
         // advance/regress dates as needed
         LocalDate newStart = nuDate.minusDays(1);
-        LocalDate newEnd = nuDate.plusDays(31);
+        LocalDate newEnd = nuDate.plusDays(30);
 
         // execute string
         String sql = "SELECT * FROM APPOINTMENTS";
@@ -123,6 +140,12 @@ public class appointmentQuery {
         return checkMonth;
     }
 
+    /** This method adds an appointment into the MySQL database. Information is gathered from the passed appointment and sent to the database via a MySQL query.
+     *
+     * @param nuAppointment The appointment to be added into the system.
+     * @return Returns the number of rows created.
+     * @throws SQLException
+     */
     public static int create(appointment nuAppointment) throws SQLException {
 
         int nuAppointmentID = nuAppointment.getAppointmentID();
@@ -161,6 +184,12 @@ public class appointmentQuery {
         return rowsAffected;
     }
 
+    /** This method modifies an appointment into the MySQL database. Information is gathered from the passed appointment and sent to the database via a MySQL query.
+     *
+     * @param nuAppointment The appointment to be modified.
+     * @return Returns the number of rows modified.
+     * @throws SQLException
+     */
     public static int update(appointment nuAppointment) throws SQLException {
         int nuAppointmentID = nuAppointment.getAppointmentID();
         String nuTitle = nuAppointment.getTitle();
@@ -196,6 +225,12 @@ public class appointmentQuery {
         return rowsAffected;
     }
 
+    /** This method removes an appointment from the MySQL database. The selected appointment's ID is passed and then removed via a MySQL query.
+     *
+     * @param appointmentID The ID of the appointment to be removed.
+     * @return Returns the number of rows removed.
+     * @throws SQLException
+     */
     public static int delete(int appointmentID) throws SQLException {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -204,6 +239,11 @@ public class appointmentQuery {
         return rowsAffected;
     }
 
+    /** This retrieves all contact names from the MySQL database. Contact names are retrieved as strings and returned in an ObservableList.
+     *
+     * @return Returns a list of all the names of contacts from the MySQL database.
+     * @throws SQLException
+     */
     public static ObservableList<String> getAllContacts() throws SQLException {
         allContacts.clear();
 
@@ -219,6 +259,11 @@ public class appointmentQuery {
         return allContacts;
     }
 
+    /** This retrieves all customer names from the MySQL database. Customer names are retrieved as strings and returned in an ObservableList.
+     *
+     * @return Returns a list of all the names of customers from the MySQL database.
+     * @throws SQLException
+     */
     public static ObservableList<String> getAllCustomerNames() throws SQLException {
         allCustomerNames.clear();
 
@@ -234,6 +279,12 @@ public class appointmentQuery {
         return allCustomerNames;
     }
 
+    /** This method determines if an overlap exists within appointment times of any new appointment. Appointment start/end times are checked against existing appointment times to see if any overlap exists.
+     *
+     * @param checkAppointment The appointment which times are to be checked against existing appointments.
+     * @return Returns a true/false boolean whether the new appointment can be made or not.
+     * @throws SQLException
+     */
     public static boolean checkOverlap(appointment checkAppointment) throws SQLException {
         boolean check = true;
         int findCus = checkAppointment.getCustomerID();
@@ -266,6 +317,11 @@ public class appointmentQuery {
         return check;
     }
 
+    /** This method determines if an appointment has been made within company hours of 800 and 2200 EST. Appointment start/end times are checked against these numbers.
+     *
+     * @param checkAppointment The appointment which times are to be checked against existing appointments.
+     * @return Returns a true/false boolean whether the new appointment can be made or not.
+     */
     public static boolean checkCompanyTime(appointment checkAppointment) {
         boolean check = true;
         // grab appointment start and end times, convert to company hours
@@ -290,6 +346,12 @@ public class appointmentQuery {
         return check;
     }
 
+    /** This method checks to see if an appointment is upcoming for the user. The username is passed from the loginController and checked to see if any appointments exist within a 15 minute window.
+     *
+     * @param curTime the current time to check.
+     * @return If an appointment is incoming, the appointment information is returned.
+     * @throws SQLException
+     */
     public static appointment checkRecent(LocalDateTime curTime) throws SQLException {
         appointment  returnAppointment = new appointment(0, null, null, null, null, null, null, null, null, null, null, 0, 0, 0);
         int userID = converter.toUserID(loginController.loggedUser);
