@@ -67,10 +67,10 @@ public class loginController implements Initializable {
         }
     }
 
-    @Override
     /** This method initializes the window. Checks the system timezone and locale, before changing button text to either English or French when detected.
      *
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Locale thisLocale = Locale.getDefault();
         String sysLang = thisLocale.getLanguage();

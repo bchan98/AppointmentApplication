@@ -33,10 +33,10 @@ public class customerController implements Initializable {
     public static customer sendCustomer;
     public Button exitButton;
 
-    @Override
     /** This method initializes the window. This fills up the TableView customerDisplay with the appropriate information.
      *
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<customer> showCustomers = FXCollections.observableArrayList();
         try {

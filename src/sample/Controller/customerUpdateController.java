@@ -56,10 +56,9 @@ public class customerUpdateController implements Initializable {
         JDBC.closeConnection();
     }
 
-    @Override
     /** This method initializes the window. Fills in the appropriate information into each field where neccessary if adding or modifying a pre-existing customer.
-     * @param sendCustomer If modifying a customer, the sent customer with appropriate information to fill in the correct fields.
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
         // check if add or modifying a customer

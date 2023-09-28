@@ -60,10 +60,10 @@ public class menuController implements Initializable {
         prevStage.close();
     }
 
-    @Override
-    /** This method initializes the window. This checks the current time to determine if any incoming appointments are near to alert the user.
+    /** This method initializes the window and uses a lambda expression to handle window closing. This checks the current time to determine if any incoming appointments are near to alert the user. This method contains a lambda expression that handles logging out of the main menu. This is a simple JavaFX method that can be quickly called to return the user to the main login screen.
      *
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -103,9 +103,6 @@ public class menuController implements Initializable {
             throwables.printStackTrace();
         }
 
-        /** This lambda expression handles logging out of the main menu. This is a simple JavaFX method that can be quickly called to return the user to the main login screen.
-         *
-         */
         logoutButton.setOnAction(event -> {
             Parent root = null;
             try {

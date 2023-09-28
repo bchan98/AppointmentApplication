@@ -45,10 +45,10 @@ public class appointmentController implements Initializable {
     public Button exitButton;
     public DatePicker dateFinder;
 
-    @Override
     /** This method initializes the appointmentController. Initializes the appointmentDisplay TableView.
-     * @param actionEvent triggers when the window is opened.
+     *
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<appointment> listAppointment = FXCollections.observableArrayList();
         JDBC.openConnection();

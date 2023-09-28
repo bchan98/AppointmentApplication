@@ -229,11 +229,10 @@ public class appointmentUpdateController implements Initializable {
         curStage.close();
     }
 
-    @Override
     /** This method initializes the window. Checks to determine if any information is passed from the original window and fills in the appropriate fields.
      *
-     * @param sendAppointment If modifying, the appointment sent by the appointmentController to be modified.
      */
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // get all customers + all contacts to populate combo boxes
