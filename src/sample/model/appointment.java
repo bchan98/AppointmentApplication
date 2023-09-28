@@ -19,6 +19,23 @@ public class appointment {
     private int userID;
     private int contactID;
 
+    /** The appointment object. An object containing appointment information.
+     *
+     * @param appointmentID The appointment's ID.
+     * @param title The appointment's title.
+     * @param description The appointment's description.
+     * @param location The location of the appointment.
+     * @param appointmentType The type of appointment.
+     * @param appointmentStart The start time of the appointment.
+     * @param appointmentEnd The end time of the appointment.
+     * @param appointmentCreationDate The time the appointment was created.
+     * @param appointmentCreationUser The user that created the appointment.
+     * @param appointmentLastUpdate The time the appointment was last updated.
+     * @param appointmentLastUpdatedBy The user that last updated the appointment.
+     * @param customerID The customer ID involved with the appointment.
+     * @param userID The user ID involved with the appointment.
+     * @param contactID The contact ID involved with the appointment.
+     */
     public appointment(int appointmentID, String title, String description, String location, String appointmentType, Timestamp appointmentStart, Timestamp appointmentEnd, Timestamp appointmentCreationDate, String appointmentCreationUser, Timestamp appointmentLastUpdate, String appointmentLastUpdatedBy, int customerID, int userID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;

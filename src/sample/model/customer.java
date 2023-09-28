@@ -14,6 +14,19 @@ public class customer {
     private String lastUpdateBy;
     private int divisionID;
 
+    /** The customer object. Contains information pertaining to each customer.
+     *
+     * @param customerID The customer's ID.
+     * @param customerName The customer's name.
+     * @param address The customer's home address.
+     * @param postCode The customer's postal code.
+     * @param phone The customer's phone number.
+     * @param createDate The date the customer was created.
+     * @param createBy The user that created the customer.
+     * @param lastUpdate The last time the customer's information was updated.
+     * @param lastUpdateBy The user that last updated the customer.
+     * @param divisionID The first level division the customer is located in.
+     */
     public customer(int customerID, String customerName, String address, String postCode, String phone, Timestamp createDate, String createBy, Timestamp lastUpdate, String lastUpdateBy, int divisionID) {
         this.customerID = customerID;
         this.customerName = customerName;
