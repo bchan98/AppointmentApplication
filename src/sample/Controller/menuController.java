@@ -86,24 +86,29 @@ public class menuController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        logoutButton.setOnAction(event -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/sample/view/loginScreen.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = new Stage();
+            Scene scene = new Scene(root, 600, 600);
+            stage.setTitle ("Login");
+            stage.setScene(scene);
+            stage.show();
+
+            Stage prevStage = (Stage) logoutButton.getScene().getWindow();
+            prevStage.close();
+        });
     }
 
     public void viewReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/reportScreen.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root, 800, 450);
-        stage.setTitle ("Login");
-        stage.setScene(scene);
-        stage.show();
-
-        Stage prevStage = (Stage) logoutButton.getScene().getWindow();
-        prevStage.close();
-    }
-
-    public void logoutUser(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/loginScreen.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root, 600, 600);
         stage.setTitle ("Login");
         stage.setScene(scene);
         stage.show();

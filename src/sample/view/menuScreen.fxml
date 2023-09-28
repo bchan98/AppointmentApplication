@@ -21,7 +21,7 @@
             <Button fx:id="appSel" mnemonicParsing="false" onAction="#sendToAppointments" text="View Appointments" GridPane.halignment="CENTER" />
             <Button fx:id="customerSel" mnemonicParsing="false" onAction="#sendToCustomers" text="View Customers" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Button fx:id="reportButton" mnemonicParsing="false" onAction="#viewReports" text="View Reports" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutUser" text="Logout" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="logoutButton" mnemonicParsing="false" text="Logout" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

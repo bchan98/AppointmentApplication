@@ -117,6 +117,7 @@ public class appointmentController implements Initializable {
         else {
             appointment delAppointment = (appointment) appointmentDisplay.getSelectionModel().getSelectedItem();
             toDelete = delAppointment.getAppointmentID();
+            String typeDel = delAppointment.getAppointmentType();
 
             Alert confDel = new Alert(Alert.AlertType.CONFIRMATION);
             confDel.setTitle("Confirm deletion");
@@ -130,6 +131,12 @@ public class appointmentController implements Initializable {
                 listAppointment = appointmentQuery.getAllAppointments();
                 appointmentDisplay.setItems(listAppointment);
             }
+
+            Alert didDel = new Alert(Alert.AlertType.INFORMATION);
+            didDel.setTitle("Appointment cancelled!");
+            didDel.setHeaderText("This appointment was cancelled.");
+            didDel.setContentText("The appointment with the ID of " + toDelete + " and the type " + typeDel + " was cancelled.");
+            didDel.show();
         }
         JDBC.closeConnection();
     }
