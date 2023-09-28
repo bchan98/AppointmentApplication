@@ -2,6 +2,7 @@ package sample.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,13 +14,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
-public class loginController{
+public class loginController implements Initializable {
 
     public TextField userField;
     public PasswordField passField;
     public Label authError;
     public static String loggedUser;
+    public Label timeZoneDisplay;
 
     public void checkPass(ActionEvent actionEvent) throws SQLException, IOException {
         String usr = userField.getText();
@@ -46,5 +49,13 @@ public class loginController{
             authError.setText("Either the username or password are incorrect. Please try again!");
         }
         JDBC.closeConnection();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TimeZone thisZone = TimeZone.getDefault();
+        String theZone = thisZone.getID();
+        String timezoneLabel = "Timezone: " + theZone;
+        timeZoneDisplay.setText(timezoneLabel);
     }
 }

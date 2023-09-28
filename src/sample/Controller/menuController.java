@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sample.DAO.JDBC;
 import sample.DAO.appointmentQuery;
@@ -20,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class menuController implements Initializable {
+    public Button logoutButton;
+
     public void sendToAppointments(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/appointmentScreen.fxml"));
         Stage stage = new Stage();
@@ -27,6 +30,9 @@ public class menuController implements Initializable {
         stage.setTitle ("Appointments");
         stage.setScene(scene);
         stage.show();
+
+        Stage prevStage = (Stage) logoutButton.getScene().getWindow();
+        prevStage.close();
     }
 
     public void sendToCustomers(ActionEvent actionEvent) throws IOException {
@@ -36,6 +42,9 @@ public class menuController implements Initializable {
         stage.setTitle ("Customers");
         stage.setScene(scene);
         stage.show();
+
+        Stage prevStage = (Stage) logoutButton.getScene().getWindow();
+        prevStage.close();
     }
 
     @Override
@@ -79,7 +88,16 @@ public class menuController implements Initializable {
         }
     }
 
-    public void viewReports(ActionEvent actionEvent) {
+    public void viewReports(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/reportScreen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root, 800, 450);
+        stage.setTitle ("Login");
+        stage.setScene(scene);
+        stage.show();
+
+        Stage prevStage = (Stage) logoutButton.getScene().getWindow();
+        prevStage.close();
     }
 
     public void logoutUser(ActionEvent actionEvent) throws IOException {
@@ -89,5 +107,8 @@ public class menuController implements Initializable {
         stage.setTitle ("Login");
         stage.setScene(scene);
         stage.show();
+
+        Stage prevStage = (Stage) logoutButton.getScene().getWindow();
+        prevStage.close();
     }
 }

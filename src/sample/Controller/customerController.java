@@ -127,13 +127,21 @@ public class customerController implements Initializable {
                 cantDel.setTitle("Cannot delete this customer");
                 cantDel.setHeaderText("Customer still has appointments.");
                 cantDel.setContentText("This customer still has appointments planned in the system. Please delete all appointments with this customer before continuing.");
+                cantDel.show();
             }
         }
         JDBC.closeConnection();
     }
 
-    public void closeWindow(ActionEvent actionEvent) {
-        Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close();
+    public void closeWindow(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root, 400, 400);
+        stage.setTitle ("Main Menu");
+        stage.setScene(scene);
+        stage.show();
+
+        Stage prevStage = (Stage) customerDisplay.getScene().getWindow();
+        prevStage.close();
     }
 }

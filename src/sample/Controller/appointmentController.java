@@ -213,7 +213,16 @@ public class appointmentController implements Initializable {
         appUIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
-    public void exitWindow(ActionEvent actionEvent) {
+    public void exitWindow(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root, 400, 400);
+        stage.setTitle ("Main Menu");
+        stage.setScene(scene);
+        stage.show();
+
+        Stage prevStage = (Stage) appointmentDisplay.getScene().getWindow();
+        prevStage.close();
     }
 
     public void searchForAppointments(ActionEvent actionEvent) throws SQLException {
