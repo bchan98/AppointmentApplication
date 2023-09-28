@@ -13,6 +13,13 @@ import java.time.LocalDateTime;
 
 public class reporter {
 
+    /** This method writes to a .txt file all login attempts. Every login attempt sends the attempted username/password information and whether the attempt was successful. This information is then written to a file.
+     *
+     * @param attemptUser The username that was used to log in.
+     * @param attemptPass The password that was used to log in.
+     * @param valid The boolean indicating whether login was successful or not.
+     * @throws IOException
+     */
     public static void loginChecker(String attemptUser, String attemptPass, boolean valid) throws IOException {
         String inputData = null;
         String filename = "login_activity.txt";
@@ -35,6 +42,11 @@ public class reporter {
         writer.close();
     }
 
+/** This method generates a report on all appointments occurring, sorted by the month, year, and type of appointment. Appointments are counted by each type occurring in each month, and then grouped and returned as a string.
+     *
+     * @return Returns a list containing strings indicating how many meetings occurred of each type in each month.
+     * @throws SQLException
+     */
     public static ObservableList<String> getAppointmentReport() throws SQLException {
         ObservableList<String> listAppointments = FXCollections.observableArrayList();
         String sql = "SELECT DATE_FORMAT(start, '%m-%Y') AS Month, Type, COUNT(Appointment_ID) AS Amount FROM appointments GROUP BY MONTH(start), YEAR(start), Type";
@@ -53,6 +65,11 @@ public class reporter {
         return listAppointments;
     }
 
+    /** This method generates a report on all contact appointments, and sorts them by contact. Appointments are retrieved with appointment information for each contact, sorted by meetings for each contact.
+     *
+     * @return Returns a list containing appointments occurring, sorted by contacts.
+     * @throws SQLException
+     */
     public static ObservableList<appointment> getContactAppointments() throws SQLException {
         ObservableList<appointment> contactAppointments = FXCollections.observableArrayList();
 
@@ -82,6 +99,11 @@ public class reporter {
         return contactAppointments;
     }
 
+    /** This method generates a report on all appointments that were created, sorted by month and user creating. Appointments are counted by creator in each month, grouped and returned as a string.
+     *
+     * @return REturns a list containing strings indicating how many meetings were created by each user each month.
+     * @throws SQLException
+     */
     public static ObservableList<String> getCreationActivity() throws SQLException {
         ObservableList<String> creationActivity = FXCollections.observableArrayList();
 

@@ -14,6 +14,11 @@ public class customerQuery {
     private static ObservableList<String> allCountries = FXCollections.observableArrayList();
     private static ObservableList<String> allDivisions = FXCollections.observableArrayList();
 
+    /** This method obtains all customers in the MySQL database. All customers are retrieved, stored in customer objects and returned in an ObservableList.
+     *
+     * @return Returns a list of all customers.
+     * @throws SQLException
+     */
     public static ObservableList<customer> getAllCustomers() throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -40,6 +45,11 @@ public class customerQuery {
         return allCustomers;
     }
 
+    /** This method returns all countries in the MySQL database. All countries are retrieved as strings and returned in an ObservableList.
+     *
+     * @return Returns a list of all countries.
+     * @throws SQLException
+     */
     public static ObservableList<String> getCountries() throws SQLException {
         allCountries.clear();
         String sql = "SELECT * FROM COUNTRIES";
@@ -52,6 +62,11 @@ public class customerQuery {
         return allCountries;
     }
 
+    /** This method returns all first level divisions in the MySQL database. All first level divisions are retrieved as strings and returned in an ObservableList.
+     *
+     * @return Returns a list of all first level divisions.
+     * @throws SQLException
+     */
     public static ObservableList<String> getDivisions(int countID) throws SQLException {
         allDivisions.clear();
 
@@ -70,6 +85,12 @@ public class customerQuery {
         return allDivisions;
     }
 
+    /** This method adds a customer to the MySQL database. Customer information is retrieved from a customer object and added via a MySQL query.
+     *
+     * @param nuCustomer The customer which is to be added to the MySQL database.
+     * @return Returns the number of rows added.
+     * @throws SQLException
+     */
     public static int create(customer nuCustomer) throws SQLException {
         int nuID = nuCustomer.getCustomerID();
         String nuName = nuCustomer.getCustomerName();
@@ -99,6 +120,12 @@ public class customerQuery {
         return rowsAffected;
     }
 
+    /** This method removes a customer from the MySQL database. The customer is removed via a MySQL query.
+     *
+     * @param cID The customer ID of the customer to be removed.
+     * @return Returns the number of rows removed.
+     * @throws SQLException
+     */
     public static int delete(int cID) throws SQLException {
         String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -107,6 +134,12 @@ public class customerQuery {
         return rowsAffected;
     }
 
+    /** This method modifies a customer in the MySQL database. Customer information is retrieved from a customer object and modified via a MySQL query.
+     *
+     * @param nuCustomer The customer which is to be modified in the database.
+     * @return Returns the number of rows modified.
+     * @throws SQLException
+     */
     public static int update(customer nuCustomer) throws SQLException {
         int nuID = nuCustomer.getCustomerID();
         String nuName = nuCustomer.getCustomerName();
@@ -132,6 +165,12 @@ public class customerQuery {
         return rowsAffected;
     }
 
+    /** This method finds pre-existing appointments for the selected customer. All appointments are searched and counts total amount of appointments relating to the specific customer.
+     *
+     * @param nuCustomer The customer which is to be searched for in the database.
+     * @return
+     * @throws SQLException
+     */
     public static int findAppointments(customer nuCustomer) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS";
         int appointmentCount = 0;
