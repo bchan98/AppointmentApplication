@@ -42,6 +42,11 @@ public class customerUpdateController implements Initializable {
     private int countryIDFlag = 0;
     private static ObservableList<String> allCountries = FXCollections.observableArrayList("U.S", "UK","Canada");
 
+    /** This method populates the provinceMenu with the appropriate first level divisions. Upon an item being selected in countryMenu, a sql call is made to retrieve the appropriate FLDs.
+     *
+     * @param actionEvent Triggers upon selection of an item in the countryMenu combobox.
+     * @throws SQLException
+     */
     public void countrySel(ActionEvent actionEvent) throws SQLException {
         String selected = (String) countryMenu.getValue();
         JDBC.openConnection();
@@ -52,6 +57,9 @@ public class customerUpdateController implements Initializable {
     }
 
     @Override
+    /** This method initializes the window. Fills in the appropriate information into each field where neccessary if adding or modifying a pre-existing customer.
+     * @param sendCustomer If modifying a customer, the sent customer with appropriate information to fill in the correct fields.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle){
 
         // check if add or modifying a customer
@@ -93,6 +101,11 @@ public class customerUpdateController implements Initializable {
         }
     }
 
+    /** This method finds the last customer ID. Makes a SQL call to determine the latest customer created and their customerID.
+     *
+     * @return Returns counter, the last customerID.
+     * @throws SQLException
+     */
     public int getLastCID() throws SQLException {
         int counter = 0;
         String sql = "SELECT * FROM CUSTOMERS";
@@ -104,6 +117,12 @@ public class customerUpdateController implements Initializable {
         return counter;
     }
 
+    /** This method saves any changes made to a customer. Makes a series of logic checks determining first if the customer is a new or existing customer, and then carries out logic checks to ensure inputted information is valid.
+     *
+     * @param actionEvent Triggers upon pressing the saveButton.
+     * @throws SQLException
+     * @throws IOException
+     */
     public void saveChanges(ActionEvent actionEvent) throws SQLException, IOException {
         boolean checkFlag = true;
         int nuDiv = -1;
@@ -184,6 +203,11 @@ public class customerUpdateController implements Initializable {
         }
     }
 
+    /** This method closes the window.
+     *
+     * @param actionEvent Triggers upon pressing the exitButton.
+     * @throws IOException
+     */
     public void closeWindow(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/customerScreen.fxml"));
         Stage stage = new Stage();

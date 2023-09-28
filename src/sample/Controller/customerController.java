@@ -34,9 +34,11 @@ public class customerController implements Initializable {
     public Button exitButton;
 
     @Override
+    /** This method initializes the window. This fills up the TableView customerDisplay with the appropriate information.
+     *
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<customer> showCustomers = FXCollections.observableArrayList();
-
         try {
             JDBC.openConnection();
             showCustomers = customerQuery.getAllCustomers();
@@ -54,6 +56,11 @@ public class customerController implements Initializable {
         cusDivID.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
     }
 
+    /** This method sends the user to the customerModScreen. This passes in information that a customer is being added.
+     *
+     * @param actionEvent Triggers on pressing the addCustomer button.
+     * @throws IOException
+     */
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         isAdd = true;
 
@@ -68,6 +75,11 @@ public class customerController implements Initializable {
         cuStage.close();
     }
 
+    /** This method sends the user to the customerModScreen. This passes in information that a customer is being modified.
+     *
+     * @param actionEvent Triggers on pressing the modCustomer button.
+     * @throws IOException
+     */
     public void modCustomer(ActionEvent actionEvent) throws IOException {
 
         if(customerDisplay.getSelectionModel().getSelectedItem() == null) {
@@ -94,6 +106,11 @@ public class customerController implements Initializable {
         }
     }
 
+    /** This method deletes a customer. This method checks to see if the customer has any pre-existing appointments as a logic check, and then deletes the selected customer.
+     *
+     * @param actionEvent Triggers upon pressing the delCustomer button.
+     * @throws SQLException
+     */
     public void delCustomer(ActionEvent actionEvent) throws SQLException {
         int toDelete = 0;
         JDBC.openConnection();
@@ -133,6 +150,11 @@ public class customerController implements Initializable {
         JDBC.closeConnection();
     }
 
+    /** This method returns the user to the main menu.
+     *
+     * @param actionEvent Triggers upon pressing the exitButton.
+     * @throws IOException
+     */
     public void closeWindow(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
         Stage stage = new Stage();
