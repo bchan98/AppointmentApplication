@@ -14,6 +14,7 @@ import sample.model.reporter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -21,9 +22,13 @@ public class loginController implements Initializable {
 
     public TextField userField;
     public PasswordField passField;
-    public Label authError;
     public static String loggedUser;
     public Label timeZoneDisplay;
+    private static String warningAlert;
+    private static String warningMessage;
+    private static String userPrompt;
+    private static String passPrompt;
+    private static String timezoneLabel;
 
     public void checkPass(ActionEvent actionEvent) throws SQLException, IOException {
         String usr = userField.getText();
@@ -31,12 +36,12 @@ public class loginController implements Initializable {
 
         JDBC.openConnection();
         boolean success = userQuery.verifyCredentials(usr, pass);
+        JDBC.closeConnection();
         reporter.loginChecker(usr, pass, success);
         if(success == true)
         {
             loggedUser = usr;
 
-            System.out.println("Success!");
             Parent root = FXMLLoader.load(getClass().getResource("/sample/view/menuScreen.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root, 400, 400);
@@ -48,16 +53,36 @@ public class loginController implements Initializable {
             prevStage.close();
         }
         else {
-            authError.setText("Either the username or password are incorrect. Please try again!");
+            Alert logError = new Alert(Alert.AlertType.WARNING);
+            logError.setTitle(warningAlert);
+            logError.setHeaderText(warningAlert);
+            logError.setContentText(warningMessage);
+            logError.show();
         }
-        JDBC.closeConnection();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Locale thisLocale = Locale.getDefault();
+        String sysLang = thisLocale.getLanguage();
         TimeZone thisZone = TimeZone.getDefault();
         String theZone = thisZone.getID();
-        String timezoneLabel = "Timezone: " + theZone;
-        timeZoneDisplay.setText(timezoneLabel);
+
+        if (sysLang.equals("fr")) {
+            warningAlert = "Avertissement!";
+            warningMessage = "Vous avez saisi soit un nom d'utilisateur invalide, soit un mot de passe incorrect. Veuillez réessayer.";
+            userField.setPromptText("Entrez votre pseudo ici: ");
+            passField.setPromptText("Entrez votre mot de passe ici: ");
+            String timezoneLabel = "Fuseau horaire: " + theZone;
+            timeZoneDisplay.setText(timezoneLabel);
+        }
+        else {
+            warningAlert = "Warning!";
+            warningMessage = "You have entered either an invalid username or an incorrect password. Please try again.";
+            userField.setPromptText("Enter your username here: ");
+            passField.setPromptText("Enter your password here: ");
+            String timezoneLabel = "Timezone: " + theZone;
+            timeZoneDisplay.setText(timezoneLabel);
+        }
     }
 }

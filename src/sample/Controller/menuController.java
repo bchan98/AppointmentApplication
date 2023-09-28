@@ -103,7 +103,7 @@ public class menuController implements Initializable {
     public void logoutUser(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/view/loginScreen.fxml"));
         Stage stage = new Stage();
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, 600, 600);
         stage.setTitle ("Login");
         stage.setScene(scene);
         stage.show();

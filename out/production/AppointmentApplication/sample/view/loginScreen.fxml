@@ -27,7 +27,6 @@
              <TextField fx:id="userField" promptText="Enter login username" GridPane.columnIndex="1" GridPane.rowIndex="1" />
              <PasswordField fx:id="passField" promptText="Enter login password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#checkPass" text="Login" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Label fx:id="authError" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Label fx:id="timeZoneDisplay" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
