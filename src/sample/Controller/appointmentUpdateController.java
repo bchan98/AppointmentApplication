@@ -264,7 +264,7 @@ public class appointmentUpdateController implements Initializable {
             titleField.setText(appointmentController.sendAppointment.getTitle());
             descField.setText(appointmentController.sendAppointment.getDescription());
             locField.setText(appointmentController.sendAppointment.getLocation());
-            typeField.setText(appointmentController.sendAppointment.getLocation());
+            typeField.setText(appointmentController.sendAppointment.getAppointmentType());
 
             // get timestamp, convert to LocalDateTime and separate into two objects to put into required fields.
             LocalDateTime tempStart = converter.toUserTime(appointmentController.sendAppointment.getAppointmentStart());
