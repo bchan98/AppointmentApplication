@@ -309,7 +309,7 @@ public class appointmentQuery {
             LocalDateTime checkStart = converter.toUserTime(checkS);
             LocalDateTime checkEnd = converter.toUserTime(checkE);
 
-            if((checkStart.isBefore(startDate) && checkEnd.isAfter(startDate)) || (checkStart.isAfter(startDate) && checkStart.isBefore(startDate)) || (checkStart.isBefore(startDate) && checkEnd.isAfter(endDate)) || (checkStart.isAfter(startDate) && checkEnd.isBefore(endDate))) {
+            if((checkStart.isBefore(startDate) && checkEnd.isAfter(startDate)) || (checkStart.isAfter(startDate) && checkStart.isBefore(startDate)) || (checkStart.isBefore(startDate) && checkEnd.isAfter(endDate)) || (checkStart.isAfter(startDate) && checkEnd.isBefore(endDate)) || (checkStart.isEqual(startDate)) || (checkEnd.isEqual(endDate))) {
                 check = false;
             }
         }
